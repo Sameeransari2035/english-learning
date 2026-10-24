@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz - English Seekho</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="logo">📚 English Seekho</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="grammar.html">Grammar</a></li>
+      <li><a href="quiz.html">Quiz</a></li>
+       <li><a href="dashboard.html">Dashboard</a></li>
+    </ul>
+  </nav>
+
+  <header class="page-header">
+    <h1>🎯 Practice Quiz</h1>
+    <p>Apna gyaan test karo aur points kamao!</p>
+  </header>
+
+  <main class="quiz-container">
+
+    <!-- Progress Bar -->
+    <div class="quiz-progress">
+      <div class="progress-info">
+        <span>Question <span id="currentQ">1</span> / <span id="totalQ">5</span></span>
+        <span>⭐ <span id="scoreDisplay">0</span> points</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+
+    <!-- Question Card -->
+    <div class="quiz-card" id="quizCard">
+      <h2 id="questionText">Loading...</h2>
+      <div class="options" id="optionsContainer"></div>
+      <div class="feedback" id="feedback"></div>
+      <button class="btn btn-primary" id="nextBtn" style="display:none;">Next →</button>
+    </div>
+
+    <!-- Result Card -->
+    <div class="result-card" id="resultCard" style="display:none;">
+      <div class="result-icon">🎉</div>
+      <h2>Quiz Complete!</h2>
+      <p class="result-score">Tumne <strong><span id="finalScore">0</span></strong> / <strong><span id="maxScore">0</span></strong> points kamaye!</p>
+      <div class="result-message" id="resultMessage"></div>
+      <div class="result-badges" id="resultBadges"></div>
+      <div class="result-actions">
+        <button class="btn btn-primary" onclick="restartQuiz()">🔄 Dobara Khelo</button>
+        <a href="grammar.html" class="btn btn-secondary">📖 Grammar Padho</a>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <p>© 2025 English Seekho | Made with ❤️</p>
+  </footer>
+
+  <script src="js/quiz.js"></script>
+</body>
+</html>

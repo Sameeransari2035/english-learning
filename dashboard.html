@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - English Seekho</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="logo">📚 English Seekho</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="grammar.html">Grammar</a></li>
+      <li><a href="quiz.html">Quiz</a></li>
+      <li><a href="dashboard.html">Dashboard</a></li>
+    </ul>
+  </nav>
+
+  <header class="page-header">
+    <h1>📊 Tumhara Dashboard</h1>
+    <p>Apni progress dekho aur aage badho!</p>
+  </header>
+
+  <main class="dashboard-container">
+
+    <!-- STATS CARDS -->
+    <section class="dash-stats">
+      <div class="dash-stat-card">
+        <div class="dash-icon">⭐</div>
+        <div class="dash-number" id="dashPoints">0</div>
+        <div class="dash-label">Total Points</div>
+      </div>
+      <div class="dash-stat-card">
+        <div class="dash-icon">🏆</div>
+        <div class="dash-number" id="dashBadges">0</div>
+        <div class="dash-label">Badges</div>
+      </div>
+      <div class="dash-stat-card">
+        <div class="dash-icon">🔥</div>
+        <div class="dash-number" id="dashStreak">0</div>
+        <div class="dash-label">Day Streak</div>
+      </div>
+      <div class="dash-stat-card">
+        <div class="dash-icon">🎯</div>
+        <div class="dash-number" id="dashQuizCount">0</div>
+        <div class="dash-label">Quiz Attempts</div>
+      </div>
+    </section>
+
+    <!-- LEVEL SECTION -->
+    <section class="dash-section">
+      <h2>🎖️ Tumhara Level</h2>
+      <div class="level-box">
+        <div class="level-info">
+          <span class="level-name" id="levelName">Beginner</span>
+          <span class="level-points" id="levelPoints">0 / 50 points</span>
+        </div>
+        <div class="level-bar">
+          <div class="level-fill" id="levelFill"></div>
+        </div>
+        <p class="level-hint" id="levelHint">Agle level tak 50 points aur chahiye!</p>
+      </div>
+    </section>
+
+    <!-- BADGES SECTION -->
+    <section class="dash-section">
+      <h2>🏆 Badges Collection</h2>
+      <div class="badges-grid" id="badgesGrid"></div>
+    </section>
+
+    <!-- RECENT ACTIVITY -->
+    <section class="dash-section">
+      <h2>📅 Recent Activity</h2>
+      <div class="activity-box" id="activityBox">
+        <p>Abhi tak koi activity nahi. <a href="quiz.html">Quiz khelo</a> aur shuru karo!</p>
+      </div>
+    </section>
+
+    <!-- QUICK ACTIONS -->
+    <section class="dash-section">
+      <h2>🚀 Aage Badho</h2>
+      <div class="quick-actions">
+        <a href="grammar.html" class="action-card">
+          <div class="action-icon">📖</div>
+          <h3>Grammar Padho</h3>
+          <p>Naye lessons seekho</p>
+        </a>
+        <a href="quiz.html" class="action-card">
+          <div class="action-icon">🎯</div>
+          <h3>Quiz Khelo</h3>
+          <p>Points kamao</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- RESET BUTTON -->
+    <section class="dash-section reset-section">
+      <button class="btn-reset" onclick="resetProgress()">🗑️ Progress Reset Karo</button>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>© 2025 English Seekho | Made with ❤️</p>
+  </footer>
+
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
