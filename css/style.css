@@ -1220,3 +1220,375 @@ body {
     font-size: 1.1rem;
   }
 }
+
+/* ============================================
+   DARK MODE
+   ============================================ */
+
+/* Smooth transition for theme change */
+body,
+.navbar,
+.feature-card,
+.lesson-card,
+.quiz-card,
+.result-card,
+.dash-stat-card,
+.level-box,
+.badge-card,
+.activity-box,
+.action-card,
+.lesson-table,
+.example-box,
+.tip-box,
+.option-btn,
+footer,
+.stats,
+.page-header,
+.hero {
+  transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+}
+
+/* DARK MODE COLORS */
+html.dark-mode {
+  --primary: #818cf8;
+  --primary-dark: #a5b4fc;
+  --secondary: #c084fc;
+  --accent: #fbbf24;
+  --success: #34d399;
+  --danger: #f87171;
+  --dark: #f1f5f9;
+  --gray: #94a3b8;
+  --light: #0f172a;
+  --white: #1e293b;
+  --gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #db2777 100%);
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
+  --shadow-lg: 0 10px 32px rgba(0,0,0,0.5);
+}
+
+html.dark-mode body {
+  background: #0f172a;
+  color: #e2e8f0;
+}
+
+/* NAVBAR */
+html.dark-mode .navbar {
+  background: rgba(30, 41, 59, 0.95);
+  border-bottom: 1px solid rgba(129, 140, 248, 0.15);
+  box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+}
+
+html.dark-mode .nav-links a {
+  color: #e2e8f0;
+}
+
+html.dark-mode .nav-links a:hover {
+  color: #818cf8;
+  background: rgba(129, 140, 248, 0.12);
+}
+
+/* HERO & PAGE HEADER */
+html.dark-mode .hero {
+  background: var(--gradient);
+}
+
+html.dark-mode .page-header {
+  background: var(--gradient);
+}
+
+/* FEATURES */
+html.dark-mode .features h2 {
+  color: #f1f5f9;
+}
+
+html.dark-mode .feature-card {
+  background: #1e293b;
+  border-color: rgba(129, 140, 248, 0.15);
+}
+
+html.dark-mode .feature-card h3 {
+  color: #f1f5f9;
+}
+
+html.dark-mode .feature-card p {
+  color: #94a3b8;
+}
+
+/* STATS SECTION */
+html.dark-mode .stats {
+  background: #020617;
+}
+
+html.dark-mode .stat-card {
+  background: rgba(129, 140, 248, 0.1);
+  border-color: rgba(129, 140, 248, 0.2);
+}
+
+/* LESSON CARDS */
+html.dark-mode .lesson-card {
+  background: #1e293b;
+  border-color: transparent;
+}
+
+html.dark-mode .lesson-card:hover {
+  border-color: #818cf8;
+}
+
+html.dark-mode .lesson-info h3 {
+  color: #f1f5f9;
+}
+
+html.dark-mode .lesson-info p {
+  color: #94a3b8;
+}
+
+html.dark-mode .lesson-tag {
+  background: rgba(129, 140, 248, 0.15);
+  color: #a5b4fc;
+}
+
+html.dark-mode .tag-locked {
+  background: #334155;
+  color: #64748b;
+}
+
+/* LESSON PAGE */
+html.dark-mode .lesson-container h1 {
+  color: #f1f5f9;
+}
+
+html.dark-mode .breadcrumb {
+  color: #94a3b8;
+}
+
+html.dark-mode .lesson-content h2 {
+  color: #f1f5f9;
+}
+
+html.dark-mode .lesson-content h3 {
+  color: #a5b4fc;
+}
+
+html.dark-mode .lesson-content p,
+html.dark-mode .lesson-content li {
+  color: #cbd5e1;
+}
+
+html.dark-mode .lesson-content strong {
+  color: #a5b4fc;
+}
+
+html.dark-mode .example-box {
+  background: linear-gradient(135deg, rgba(129, 140, 248, 0.15), rgba(192, 132, 252, 0.1));
+  border-left-color: #818cf8;
+}
+
+html.dark-mode .tip-box {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(245, 158, 11, 0.1));
+  border-left-color: #fbbf24;
+}
+
+html.dark-mode .lesson-table td {
+  border-bottom-color: #334155;
+  color: #cbd5e1;
+}
+
+html.dark-mode .lesson-table tr:nth-child(even) {
+  background: #1e293b;
+}
+
+html.dark-mode .lesson-table th {
+  background: var(--gradient);
+}
+
+/* QUIZ */
+html.dark-mode .quiz-card,
+html.dark-mode .result-card {
+  background: #1e293b;
+  border-color: rgba(129, 140, 248, 0.15);
+}
+
+html.dark-mode .quiz-card h2 {
+  color: #f1f5f9;
+}
+
+html.dark-mode .progress-info {
+  color: #a5b4fc;
+}
+
+html.dark-mode .progress-bar {
+  background: #334155;
+}
+
+html.dark-mode .option-btn {
+  background: #0f172a;
+  border-color: #334155;
+  color: #e2e8f0;
+}
+
+html.dark-mode .option-btn:hover:not(:disabled) {
+  background: rgba(129, 140, 248, 0.15);
+  border-color: #818cf8;
+}
+
+html.dark-mode .option-btn.correct {
+  background: rgba(16, 185, 129, 0.2);
+  border-color: #10b981;
+  color: #6ee7b7;
+}
+
+html.dark-mode .option-btn.wrong {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: #ef4444;
+  color: #fca5a5;
+}
+
+html.dark-mode .feedback-correct {
+  background: rgba(16, 185, 129, 0.2);
+  color: #6ee7b7;
+}
+
+html.dark-mode .feedback-wrong {
+  background: rgba(239, 68, 68, 0.2);
+  color: #fca5a5;
+}
+
+html.dark-mode .result-card h2 {
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+html.dark-mode .result-message {
+  background: linear-gradient(135deg, rgba(129, 140, 248, 0.15), rgba(192, 132, 252, 0.1));
+  color: #a5b4fc;
+}
+
+html.dark-mode .badge-item {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(245, 158, 11, 0.1));
+  color: #fbbf24;
+}
+
+/* DASHBOARD */
+html.dark-mode .dash-stat-card {
+  background: #1e293b;
+}
+
+html.dark-mode .dash-label {
+  color: #94a3b8;
+}
+
+html.dark-mode .dash-section h2 {
+  color: #f1f5f9;
+}
+
+html.dark-mode .level-box {
+  background: #1e293b;
+}
+
+html.dark-mode .level-bar {
+  background: #334155;
+}
+
+html.dark-mode .level-hint {
+  color: #94a3b8;
+}
+
+html.dark-mode .badge-card {
+  background: #1e293b;
+}
+
+html.dark-mode .badge-card.earned {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(245, 158, 11, 0.1));
+  border-color: #fbbf24;
+}
+
+html.dark-mode .badge-card-name {
+  color: #f1f5f9;
+}
+
+html.dark-mode .badge-card-desc {
+  color: #94a3b8;
+}
+
+html.dark-mode .activity-box {
+  background: #1e293b;
+}
+
+html.dark-mode .activity-item {
+  border-bottom-color: #334155;
+}
+
+html.dark-mode .activity-item strong {
+  color: #f1f5f9;
+}
+
+html.dark-mode .activity-item p {
+  color: #94a3b8;
+}
+
+html.dark-mode .action-card {
+  background: #1e293b;
+}
+
+html.dark-mode .action-card:hover {
+  border-color: #818cf8;
+}
+
+html.dark-mode .action-card p {
+  color: #94a3b8;
+}
+
+html.dark-mode .btn-reset {
+  background: rgba(239, 68, 68, 0.15);
+  color: #fca5a5;
+  border-color: #ef4444;
+}
+
+html.dark-mode .btn-reset:hover {
+  background: #ef4444;
+  color: #fff;
+}
+
+/* FOOTER */
+html.dark-mode .footer {
+  background: #020617;
+  color: #64748b;
+}
+
+/* ============================================
+   THEME TOGGLE BUTTON
+   ============================================ */
+.theme-toggle {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(99, 102, 241, 0.1);
+  border: 2px solid rgba(99, 102, 241, 0.2);
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  padding: 0;
+  margin-left: 1rem;
+  flex-shrink: 0;
+}
+
+.theme-toggle:hover {
+  background: rgba(99, 102, 241, 0.2);
+  border-color: var(--primary);
+  transform: scale(1.1);
+}
+
+html.dark-mode .theme-toggle {
+  background: rgba(251, 191, 36, 0.15);
+  border-color: rgba(251, 191, 36, 0.3);
+}
+
+html.dark-mode .theme-toggle:hover {
+  background: rgba(251, 191, 36, 0.25);
+  border-color: var(--accent);
+}
