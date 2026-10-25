@@ -50,3 +50,33 @@ function getIcon() {
   const isDark = document.documentElement.classList.contains('dark-mode');
   return isDark ? '☀️' : '🌙';
 }
+
+// ============================================
+// MOBILE MENU TOGGLE
+// ============================================
+window.addEventListener('DOMContentLoaded', () => {
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+
+  if (menuToggle && navLinks) {
+    menuToggle.addEventListener('click', () => {
+      menuToggle.classList.toggle('active');
+      navLinks.classList.toggle('active');
+
+       // Body scroll lock
+  if (navLinks.classList.contains('active')) {
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = '';
+  }
+    });
+
+    // Link click par menu close karo (mobile par)
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        menuToggle.classList.remove('active');
+        navLinks.classList.remove('active');
+      });
+    });
+  }
+});
