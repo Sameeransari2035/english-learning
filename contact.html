@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - English Seekho</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/dark-mode.js"></script>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="logo">📚 English Seekho</div>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="grammar.html">Grammar</a></li>
+      <li><a href="vocabulary.html">Vocabulary</a></li>
+      <li><a href="quiz.html">Quiz</a></li>
+      <li><a href="game.html">Game</a></li>
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="leaderboard.html">Leaderboard</a></li>
+      <li><a href="contact.html">Contact</a></li> <!-- Naya Link -->
+      <li><a href="login.html" id="navLoginBtn">Login</a></li>
+    </ul>
+  </nav>
+
+  <header class="page-header">
+    <h1>📬 Contact Us</h1>
+    <p>Koi sawaal, sujhav ya feedback hai? Humein likhein!</p>
+  </header>
+
+  <main class="contact-container">
+    <div class="contact-card">
+      
+      <form id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        
+        <div class="form-group">
+          <label for="name">Aapka Naam:</label>
+          <input type="text" id="name" name="name" placeholder="Apna naam likhein..." required>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Aapka Email:</label>
+          <input type="email" id="email" name="email" placeholder="Apna email likhein..." required>
+        </div>
+
+        <div class="form-group">
+          <label for="message">Aapka Message:</label>
+          <textarea id="message" name="message" rows="5" placeholder="Apna message yahan likhein..." required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%;">📩 Message Bhejein</button>
+        
+      </form>
+
+      <div id="formSuccess" class="form-success" style="display: none;">
+        <h3>✅ Message Bhej Diya Gaya!</h3>
+        <p>Hum jaldi hi aapse contact karenge. Dhanyawad!</p>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>© 2025 English Seekho | Made with ❤️</p>
+  </footer>
+
+  <script>
+    // Form submit hone par success message dikhane ka code
+    const form = document.getElementById('contactForm');
+    const successMsg = document.getElementById('formSuccess');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault(); // Page refresh hone se roko
+      
+      const data = new FormData(form);
+      
+      fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: {
+          'Accept': 'application/json'
+        }
+      }).then(response => {
+        if (response.ok) {
+          form.style.display = 'none';
+          successMsg.style.display = 'block';
+        } else {
+          alert("Oops! Kuch problem aayi. Dobara try karein.");
+        }
+      }).catch(error => {
+        alert("Network error! Internet check karein.");
+      });
+    });
+  </script>
+</body>
+</html>
