@@ -172,7 +172,7 @@ function showResults() {
 
   saveProgress(score);
   displayBadges();
-  askNameAndSaveToLeaderboard();
+   askNameAndSaveToLeaderboard();
 }
 
 // ============================================
