@@ -4,6 +4,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard - English Seekho</title>
+    <!-- Favicon -->
+  <link rel="icon" type="image/png" href="fevicon.png">
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Hindi se English seekho aasaan tarike se. Grammar lessons, interactive quiz, daily vocabulary aur games khelo.">
+  <meta name="keywords" content="English learning, Hindi to English, Grammar, Quiz, Vocabulary, English Seekho">
+  <meta name="author" content="Sameer Ansari">
+
+  <!-- Social Media Sharing Tags (Open Graph) -->
+  <meta property="og:title" content="English Seekho - Hindi se English">
+  <meta property="og:description" content="Grammar padho, quiz khelo, aur daily naye words seekho. Aasaan tarike se English seekhne ki website.">
+  <meta property="og:image" content="favicon.png">
+  <meta property="og:type" content="website">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="English Seekho - Hindi se English">
+  <meta name="twitter:description" content="Grammar padho, quiz khelo, aur daily naye words seekho.">
+  <meta name="twitter:image" content="favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -22,7 +41,9 @@
   <ul class="nav-links" id="navLinks">
     <li><a href="index.html">Home</a></li>
     <li><a href="grammar.html">Grammar</a></li>
+    <li><a href="vocabulary.html">Vocabulary</a></li>
     <li><a href="quiz.html">Quiz</a></li>
+    <li><a href="game.html">Game</a></li>
     <li><a href="dashboard.html">Dashboard</a></li>
     <li><a href="leaderboard.html">Leaderboard</a></li>
   </ul>
@@ -117,5 +138,19 @@
   </footer>
 
   <script src="js/dashboard.js"></script>
+
+  <!-- Custom Reset Confirmation Modal -->
+<div id="resetModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999; justify-content: center; align-items: center; backdrop-filter: blur(4px);">
+  <div style="background: white; padding: 2rem; border-radius: 15px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); animation: fadeInUp 0.3s ease;">
+    <div style="font-size: 3rem; margin-bottom: 10px;">⚠️</div>
+    <h2 style="margin-bottom: 10px; color: #333; font-size: 1.5rem;">Progress Reset Karein?</h2>
+    <p style="margin-bottom: 20px; color: #666; font-size: 1rem;">Kya aap sach mein apne saare points, badges aur streak delete karna chahte hain? Ye wapas nahi aayenge!</p>
+    
+    <div style="display: flex; gap: 10px;">
+      <button id="cancelResetBtn" style="flex: 1; padding: 12px; border: none; background: #eee; color: #333; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: inherit; transition: 0.2s;">Nahi, Wapas Jao</button>
+      <button id="confirmResetBtn" style="flex: 1; padding: 12px; border: none; background: #ef4444; color: white; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: inherit; transition: 0.2s;">Haan, Delete Karo</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>

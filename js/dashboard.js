@@ -129,22 +129,31 @@ function renderActivity(lastPlayed, quizCount, points) {
 }
 
 // ============================================
-// RESET PROGRESS
+// RESET PROGRESS (With Custom Modal)
 // ============================================
 function resetProgress() {
-  if (confirm('Kya aap sach mein apni saari progress reset karna chahte ho? Ye wapas nahi aayegi!')) {
+  const modal = document.getElementById('resetModal');
+  const confirmBtn = document.getElementById('confirmResetBtn');
+  const cancelBtn = document.getElementById('cancelResetBtn');
+
+  // Modal ko show karo
+  modal.style.display = 'flex';
+
+  // Haan, Delete Karo
+  confirmBtn.onclick = function() {
     localStorage.removeItem('points');
     localStorage.removeItem('badges');
     localStorage.removeItem('badgeList');
     localStorage.removeItem('streak');
     localStorage.removeItem('lastPlayed');
     localStorage.removeItem('quizCount');
-    alert('Progress reset ho gayi! 🔄');
-    loadDashboard();
-  }
-}
+    
+    modal.style.display = 'none'; // Modal band karo
+    loadDashboard(); // Dashboard ko turant update karo
+  };
 
-// ============================================
-// START
-// ============================================
-loadDashboard();
+  // Nahi, Wapas Jao
+  cancelBtn.onclick = function() {
+    modal.style.display = 'none'; // Bas modal band karo
+  };
+}

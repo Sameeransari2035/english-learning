@@ -2532,3 +2532,259 @@ html.dark-mode .rank-date {
     flex-direction: column;
   }
 }
+/* Dashboard Premium Touch */
+.dash-stat-card {
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.dash-stat-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 10px 25px rgba(99, 102, 241, 0.15);
+}
+
+.dash-stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: 0.5s;
+}
+
+.dash-stat-card:hover::before {
+  left: 100%;
+}
+/* ============================================
+   VOCABULARY PAGE
+   ============================================ */
+.vocab-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 3rem 2rem 4rem;
+}
+
+.vocab-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.vocab-card {
+  background: var(--white);
+  padding: 1.5rem;
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+  border-left: 4px solid var(--primary);
+  transition: all 0.3s;
+  animation: fadeInUp 0.5s ease backwards;
+}
+
+.vocab-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+  border-left-color: var(--accent);
+}
+
+.vocab-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.vocab-header h3 {
+  font-size: 1.3rem;
+  color: var(--primary-dark);
+  font-weight: 700;
+}
+
+.audio-btn {
+  background: rgba(99, 102, 241, 0.1);
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.audio-btn:hover {
+  background: rgba(99, 102, 241, 0.2);
+  transform: scale(1.1);
+}
+
+.vocab-hindi {
+  font-size: 1.1rem;
+  color: var(--gray);
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.vocab-meaning {
+  font-size: 0.95rem;
+  color: #374151;
+  margin-bottom: 1rem;
+}
+
+.vocab-example {
+  background: rgba(99, 102, 241, 0.05);
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #4b5563;
+  font-style: italic;
+}
+
+/* Dark Mode */
+html.dark-mode .vocab-card {
+  background: #1e293b;
+}
+
+html.dark-mode .vocab-header h3 {
+  color: #a5b4fc;
+}
+
+html.dark-mode .vocab-hindi {
+  color: #94a3b8;
+}
+
+html.dark-mode .vocab-meaning {
+  color: #cbd5e1;
+}
+
+html.dark-mode .vocab-example {
+  background: rgba(129, 140, 248, 0.1);
+  color: #cbd5e1;
+}
+
+@media (max-width: 600px) {
+  .vocab-grid {
+    grid-template-columns: 1fr;
+  }
+  .vocab-container {
+    padding: 2rem 1rem;
+  }
+}
+/* ============================================
+   GAME PAGE (Word Scramble)
+   ============================================ */
+.game-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 3rem 2rem 4rem;
+}
+
+.game-card {
+  background: var(--white);
+  padding: 2.5rem 2rem;
+  border-radius: 20px;
+  box-shadow: var(--shadow-md);
+  text-align: center;
+  border: 1px solid rgba(99, 102, 241, 0.08);
+}
+
+.game-stats {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--primary-dark);
+  margin-bottom: 2rem;
+}
+
+.hint-box {
+  background: rgba(251, 191, 36, 0.15);
+  color: #b45309;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+}
+
+.scrambled-word {
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: 8px;
+  color: var(--dark);
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+  word-break: break-all;
+}
+
+.game-input {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.2rem;
+  text-align: center;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  font-family: inherit;
+  font-weight: 600;
+  text-transform: uppercase;
+  outline: none;
+  transition: border-color 0.3s;
+  margin-bottom: 1.5rem;
+}
+
+.game-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+.game-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.game-actions .btn {
+  flex: 1;
+}
+
+.game-feedback {
+  margin-top: 1.5rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.game-feedback.success { color: #059669; }
+.game-feedback.error { color: #dc2626; }
+.game-feedback.warning { color: #d97706; }
+
+/* Dark Mode */
+html.dark-mode .game-card {
+  background: #1e293b;
+}
+
+html.dark-mode .scrambled-word {
+  color: #f1f5f9;
+}
+
+html.dark-mode .game-input {
+  background: #0f172a;
+  border-color: #334155;
+  color: #e2e8f0;
+}
+
+html.dark-mode .hint-box {
+  background: rgba(251, 191, 36, 0.1);
+  color: #fbbf24;
+}
+
+@media (max-width: 600px) {
+  .scrambled-word {
+    font-size: 1.8rem;
+    letter-spacing: 4px;
+  }
+  .game-actions {
+    flex-direction: column;
+  }
+}
