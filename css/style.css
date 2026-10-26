@@ -1243,11 +1243,10 @@ html.dark-mode .menu-toggle span {
 
   /* === NAVBAR MOBILE === */
   .navbar {
-    padding: 0.9rem 1rem;
-    flex-wrap: wrap;
+     padding: 0.9rem 1rem;
     position: sticky;
     top: 0;
-     height: 60px;
+    height: 60px; 
   }
 
   .logo {
