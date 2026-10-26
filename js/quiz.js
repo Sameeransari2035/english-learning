@@ -265,26 +265,38 @@ function restartQuiz() {
 }
 
 // ============================================
-// START
-// ============================================
-// ============================================
-// LEADERBOARD INTEGRATION
+// CUSTOM MODAL LEADERBOARD INTEGRATION
 // ============================================
 function askNameAndSaveToLeaderboard() {
   const maxScore = quizQuestions.length * 10;
   if (score === 0) return;
 
-  let playerName = prompt(
-    `🎉 Tumne ${score}/${maxScore} points kamaye!\n\nLeaderboard par apna naam daalo:`,
-    localStorage.getItem('lastPlayerName') || ''
-  );
+  const modal = document.getElementById('nameModal');
+  const input = document.getElementById('playerNameInput');
+  const saveBtn = document.getElementById('saveNameBtn');
+  const cancelBtn = document.getElementById('cancelNameBtn');
+  const scoreText = document.getElementById('modalScoreText');
 
-  if (playerName !== null) {
-    playerName = playerName.trim() || 'Anonymous';
+  // Popup mein score dikhao
+  scoreText.textContent = `Tumne ${score}/${maxScore} points kamaye!`;
+  
+  // Purana naam input mein daal do (agar tha toh)
+  input.value = localStorage.getItem('lastPlayerName') || '';
+  
+  // Modal ko show karo
+  modal.style.display = 'flex';
+  input.focus();
+
+  // Save Button ka kaam
+  saveBtn.onclick = function() {
+    let playerName = input.value.trim() || 'Anonymous';
     localStorage.setItem('lastPlayerName', playerName);
 
     // Firebase mein save karo
     waitForFirebaseAndSave(playerName, score, maxScore);
+    
+    // Modal band karo
+    modal.style.display = 'none';
 
     // Leaderboard link dikhao
     const badgesContainer = document.getElementById('resultBadges');
@@ -298,7 +310,19 @@ function askNameAndSaveToLeaderboard() {
       `;
       badgesContainer.appendChild(linkDiv);
     }
-  }
+  };
+
+  // Cancel Button ka kaam
+  cancelBtn.onclick = function() {
+    modal.style.display = 'none';
+  };
+
+  // Enter dabane par bhi save ho jaye
+  input.onkeypress = function(e) {
+    if (e.key === 'Enter') {
+      saveBtn.click();
+    }
+  };
 }
 // ============================================
 // SAVE SCORE TO FIREBASE
