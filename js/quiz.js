@@ -172,6 +172,7 @@ function showResults() {
 
   saveProgress(score);
   displayBadges();
+  askNameAndSaveToLeaderboard();
 }
 
 // ============================================
@@ -262,4 +263,61 @@ function restartQuiz() {
 // ============================================
 // START
 // ============================================
+// ============================================
+// LEADERBOARD INTEGRATION
+// ============================================
+function askNameAndSaveToLeaderboard() {
+  const maxScore = quizQuestions.length * 10;
+
+  // Agar score 0 hai, toh leaderboard mein save mat karo
+  if (score === 0) return;
+
+  // User ka naam puchho
+  let playerName = prompt(
+    `🎉 Tumne ${score}/${maxScore} points kamaye!\n\nLeaderboard par apna naam daalo:`,
+    localStorage.getItem('lastPlayerName') || ''
+  );
+
+  if (playerName !== null) {
+    // Cancel nahi kiya
+    playerName = playerName.trim() || 'Anonymous';
+    localStorage.setItem('lastPlayerName', playerName);
+
+    // Leaderboard mein add karo
+    const leaderboard = JSON.parse(localStorage.getItem('leaderboard') || '[]');
+    leaderboard.push({
+      name: playerName,
+      score: score,
+      maxScore: maxScore,
+      date: new Date().toLocaleDateString('en-IN', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric'
+      }),
+      timestamp: Date.now()
+    });
+
+    // Sort
+    leaderboard.sort((a, b) => {
+      if (b.score !== a.score) return b.score - a.score;
+      return b.timestamp - a.timestamp;
+    });
+
+    // Top 20 only
+    localStorage.setItem('leaderboard', JSON.stringify(leaderboard.slice(0, 20)));
+
+    // Result card mein link dikhao
+    const badgesContainer = document.getElementById('resultBadges');
+    if (badgesContainer) {
+      const linkDiv = document.createElement('div');
+      linkDiv.style.marginTop = '1.5rem';
+      linkDiv.innerHTML = `
+        <a href="leaderboard.html" class="btn btn-primary" style="margin-top: 0.5rem;">
+          🏆 Leaderboard Dekho
+        </a>
+      `;
+      badgesContainer.appendChild(linkDiv);
+    }
+  }
+}
 initQuiz();
