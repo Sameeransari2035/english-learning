@@ -140,20 +140,39 @@ function resetProgress() {
   modal.style.display = 'flex';
 
   // Haan, Delete Karo
-  confirmBtn.onclick = function() {
+  confirmBtn.onclick = function () {
     localStorage.removeItem('points');
     localStorage.removeItem('badges');
     localStorage.removeItem('badgeList');
     localStorage.removeItem('streak');
     localStorage.removeItem('lastPlayed');
     localStorage.removeItem('quizCount');
-    
+
     modal.style.display = 'none'; // Modal band karo
+    
+
+    // Aur loadDashboard() ke andar sabse upar isko call kar do:
+    // loadUserName();
     loadDashboard(); // Dashboard ko turant update karo
   };
 
   // Nahi, Wapas Jao
-  cancelBtn.onclick = function() {
+  cancelBtn.onclick = function () {
     modal.style.display = 'none'; // Bas modal band karo
   };
 }
+// ============================================
+// LOAD USER NAME
+// ============================================
+function loadUserName() {
+  const name = localStorage.getItem('userName') || 'User';
+  const el = document.getElementById('dashUserName');
+  if (el) el.textContent = name;
+}
+
+// ============================================
+// START
+// ============================================
+// Page load hote hi dono functions chalao
+loadUserName();
+loadDashboard();

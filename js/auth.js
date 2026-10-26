@@ -1,5 +1,6 @@
 let isLoginMode = true;
 
+// Saare DOM elements pehle declare karo
 const tabLogin = document.getElementById('tabLogin');
 const tabSignup = document.getElementById('tabSignup');
 const authForm = document.getElementById('authForm');
@@ -7,14 +8,20 @@ const authEmail = document.getElementById('authEmail');
 const authPassword = document.getElementById('authPassword');
 const authSubmitBtn = document.getElementById('authSubmitBtn');
 const authError = document.getElementById('authError');
+const nameGroup = document.getElementById('nameGroup');
 
-// Tab switch logic
+// ============================================
+// TAB SWITCH LOGIC (Login vs Signup)
+// ============================================
 tabLogin.onclick = () => {
   isLoginMode = true;
   tabLogin.classList.add('active');
   tabSignup.classList.remove('active');
   authSubmitBtn.textContent = 'Login Karein';
   authError.style.display = 'none';
+  
+  // Login par naam ka box hide karo
+  if (nameGroup) nameGroup.style.display = 'none';
 };
 
 tabSignup.onclick = () => {
@@ -23,14 +30,19 @@ tabSignup.onclick = () => {
   tabLogin.classList.remove('active');
   authSubmitBtn.textContent = 'Account Banayein';
   authError.style.display = 'none';
+  
+  // Signup par naam ka box show karo
+  if (nameGroup) nameGroup.style.display = 'block';
 };
 
-// Form submit logic
-authForm.addEventListener('submit', function(e) {
+// ============================================
+// FORM SUBMIT LOGIC
+// ============================================
+authForm.addEventListener('submit', function (e) {
   e.preventDefault();
   const email = authEmail.value.trim();
   const password = authPassword.value;
-  
+
   authError.style.display = 'none';
 
   if (password.length < 6) {
@@ -46,7 +58,7 @@ authForm.addEventListener('submit', function(e) {
   function waitForFirebaseAuth() {
     if (window.firebaseAuth) {
       if (isLoginMode) {
-        // Login
+        // ===== LOGIN =====
         window.firebaseSignIn(window.firebaseAuth, email, password)
           .then((userCredential) => {
             localStorage.setItem('currentUser', userCredential.user.email);
@@ -56,10 +68,13 @@ authForm.addEventListener('submit', function(e) {
             showError(error.message);
           });
       } else {
-        // Signup
+        // ===== SIGNUP =====
+        let userName = document.getElementById('authName').value.trim() || "User";
+
         window.firebaseCreateUser(window.firebaseAuth, email, password)
           .then((userCredential) => {
             localStorage.setItem('currentUser', userCredential.user.email);
+            localStorage.setItem('userName', userName);
             window.location.href = 'dashboard.html';
           })
           .catch((error) => {
@@ -70,18 +85,23 @@ authForm.addEventListener('submit', function(e) {
       setTimeout(waitForFirebaseAuth, 100);
     }
   }
-  
+
   waitForFirebaseAuth();
 });
 
+// ============================================
+// ERROR HANDLER
+// ============================================
 function showError(msg) {
   authSubmitBtn.textContent = isLoginMode ? 'Login Karein' : 'Account Banayein';
   authSubmitBtn.disabled = false;
-  
+
   if (msg.includes('auth/invalid-credential') || msg.includes('auth/user-not-found') || msg.includes('auth/wrong-password')) {
     authError.textContent = "❌ Email ya password galat hai!";
   } else if (msg.includes('auth/email-already-in-use')) {
     authError.textContent = "❌ Ye email pehle se registered hai. Login karein!";
+  } else if (msg.includes('auth/weak-password')) {
+    authError.textContent = "❌ Password kamzor hai (6+ characters chahiye).";
   } else {
     authError.textContent = "❌ Error: " + msg;
   }

@@ -152,6 +152,17 @@ nextBtn.onclick = () => {
 // ============================================
 // SHOW RESULTS
 // ============================================
+// Login check karne ka function
+function checkLoginBeforeScore() {
+  const currentUser = localStorage.getItem('currentUser');
+  if (!currentUser) {
+    alert("⚠️ Score save karne ke liye pehle Login karein!");
+    window.location.href = 'login.html';
+    return false;
+  }
+  return true;
+}
+
 function showResults() {
   quizCard.style.display = 'none';
   resultCard.style.display = 'block';
@@ -176,7 +187,10 @@ function showResults() {
 
   saveProgress(score);
   displayBadges();
-  askNameAndSaveToLeaderboard();
+    // askNameAndSaveToLeaderboard(); // Isko hatao
+  if (checkLoginBeforeScore()) {
+    askNameAndSaveToLeaderboard();
+  }
 }
 
 // ============================================
@@ -281,7 +295,7 @@ function askNameAndSaveToLeaderboard() {
   scoreText.textContent = `Tumne ${score}/${maxScore} points kamaye!`;
   
   // Purana naam input mein daal do (agar tha toh)
-  input.value = localStorage.getItem('lastPlayerName') || '';
+  input.value = localStorage.getItem('userName') || '';
   
   // Modal ko show karo
   modal.style.display = 'flex';
