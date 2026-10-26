@@ -9,25 +9,55 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getDatabase, ref, push, onValue, query, orderByChild, limitToLast } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAMtL9sDV0wwcTZ-tzGTwU-ChF97iv4dG0",
+      authDomain: "english-seekho-leaderboard.firebaseapp.com",
+      databaseURL: "https://english-seekho-leaderboard-default-rtdb.firebaseio.com",
+      projectId: "english-seekho-leaderboard",
+      storageBucket: "english-seekho-leaderboard.firebasestorage.app",
+      messagingSenderId: "462760120293",
+      appId: "1:462760120293:web:63032ad088865b786c690c"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    window.firebaseDB = db;
+    window.firebaseRef = ref;
+    window.firebasePush = push;
+    window.firebaseOnValue = onValue;
+    window.firebaseQuery = query;
+    window.firebaseOrderByChild = orderByChild;
+    window.firebaseLimitToLast = limitToLast;
+
+    console.log('✅ Firebase initialized (leaderboard)');
+  </script>
+
   <script src="js/dark-mode.js"></script>
 </head>
 <body>
 
- <nav class="navbar">
-  <div class="logo">📚 English Seekho</div>
-  <button class="menu-toggle" id="menuToggle" aria-label="Menu">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
-  <ul class="nav-links" id="navLinks">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="grammar.html">Grammar</a></li>
-    <li><a href="quiz.html">Quiz</a></li>
-    <li><a href="dashboard.html">Dashboard</a></li>
-    <li><a href="leaderboard.html">Leaderboard</a></li>
-  </ul>
-</nav>
+  <nav class="navbar">
+    <div class="logo">📚 English Seekho</div>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="grammar.html">Grammar</a></li>
+      <li><a href="quiz.html">Quiz</a></li>
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="leaderboard.html">Leaderboard</a></li>
+    </ul>
+  </nav>
 
   <header class="page-header">
     <h1>🏆 Leaderboard</h1>
@@ -36,23 +66,16 @@
 
   <main class="leaderboard-container">
 
-    <!-- TOP 3 PODIUM -->
     <section class="podium-section">
       <h2 class="podium-heading">🥇 Top Champions</h2>
-      <div class="podium" id="podium">
-        <!-- JavaScript se fill hoga -->
-      </div>
+      <div class="podium" id="podium"></div>
     </section>
 
-    <!-- FULL RANKING LIST -->
     <section class="ranking-section">
       <h2>📊 Full Ranking</h2>
-      <div class="ranking-list" id="rankingList">
-        <!-- JavaScript se fill hoga -->
-      </div>
+      <div class="ranking-list" id="rankingList"></div>
     </section>
 
-    <!-- EMPTY STATE -->
     <div class="empty-leaderboard" id="emptyLeaderboard" style="display:none;">
       <div class="empty-icon">🏆</div>
       <h3>Abhi tak koi score nahi hai!</h3>
@@ -60,10 +83,9 @@
       <a href="quiz.html" class="btn btn-primary">🎯 Quiz Khelo</a>
     </div>
 
-    <!-- ACTION BUTTONS -->
     <div class="leaderboard-actions">
       <a href="quiz.html" class="btn btn-primary">🎯 Quiz Khelo</a>
-      <button class="btn btn-secondary" onclick="clearLeaderboard()">🗑️ Clear All Scores</button>
+      <!-- Clear button hata diya — Firebase se clear karna risky hai -->
     </div>
 
   </main>

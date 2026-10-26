@@ -64,6 +64,10 @@ const progressFill = document.getElementById('progressFill');
 // INIT
 // ============================================
 function initQuiz() {
+  if (!questionText || !optionsContainer) {
+    console.error('❌ Quiz DOM elements missing!');
+    return;
+  }
   totalQSpan.textContent = quizQuestions.length;
   currentQuestionIndex = 0;
   score = 0;
@@ -172,7 +176,7 @@ function showResults() {
 
   saveProgress(score);
   displayBadges();
-   askNameAndSaveToLeaderboard();
+  askNameAndSaveToLeaderboard();
 }
 
 // ============================================
@@ -268,56 +272,64 @@ function restartQuiz() {
 // ============================================
 function askNameAndSaveToLeaderboard() {
   const maxScore = quizQuestions.length * 10;
-
-  // Agar score 0 hai, toh leaderboard mein save mat karo
   if (score === 0) return;
 
-  // User ka naam puchho
   let playerName = prompt(
     `🎉 Tumne ${score}/${maxScore} points kamaye!\n\nLeaderboard par apna naam daalo:`,
     localStorage.getItem('lastPlayerName') || ''
   );
 
   if (playerName !== null) {
-    // Cancel nahi kiya
     playerName = playerName.trim() || 'Anonymous';
     localStorage.setItem('lastPlayerName', playerName);
 
-    // Leaderboard mein add karo
-    const leaderboard = JSON.parse(localStorage.getItem('leaderboard') || '[]');
-    leaderboard.push({
-      name: playerName,
-      score: score,
-      maxScore: maxScore,
-      date: new Date().toLocaleDateString('en-IN', {
-        day: 'numeric',
-        month: 'short',
-        year: 'numeric'
-      }),
-      timestamp: Date.now()
-    });
+    // Firebase mein save karo
+    waitForFirebaseAndSave(playerName, score, maxScore);
 
-    // Sort
-    leaderboard.sort((a, b) => {
-      if (b.score !== a.score) return b.score - a.score;
-      return b.timestamp - a.timestamp;
-    });
-
-    // Top 20 only
-    localStorage.setItem('leaderboard', JSON.stringify(leaderboard.slice(0, 20)));
-
-    // Result card mein link dikhao
+    // Leaderboard link dikhao
     const badgesContainer = document.getElementById('resultBadges');
     if (badgesContainer) {
       const linkDiv = document.createElement('div');
       linkDiv.style.marginTop = '1.5rem';
       linkDiv.innerHTML = `
-        <a href="leaderboard.html" class="btn btn-primary" style="margin-top: 0.5rem;">
-          🏆 Leaderboard Dekho
+        <a href="leaderboard.html" class="btn btn-primary">
+          🏆 Global Leaderboard Dekho
         </a>
       `;
       badgesContainer.appendChild(linkDiv);
     }
   }
 }
-initQuiz();
+// ============================================
+// SAVE SCORE TO FIREBASE
+// ============================================
+let firebaseAttempts = 0;
+const MAX_ATTEMPTS = 50;
+
+function waitForFirebaseAndSave(name, score, maxScore) {
+  if (window.firebaseDB) {
+    const scoresRef = window.firebaseRef(window.firebaseDB, 'leaderboard');
+    window.firebasePush(scoresRef, {
+      name: name,
+      score: score,
+      maxScore: maxScore,
+      timestamp: Date.now()
+    })
+      .then(() => console.log('✅ Score saved'))
+      .catch(err => console.error('❌ Save error:', err));
+  } else if (firebaseAttempts < MAX_ATTEMPTS) {
+    firebaseAttempts++;
+    setTimeout(() => waitForFirebaseAndSave(name, score, maxScore), 100);
+  } else {
+    console.error('❌ Firebase load nahi hua');
+  }
+}
+
+// ============================================
+// START — sab functions ke BAAD, alag se
+// ============================================
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initQuiz);
+} else {
+  initQuiz();
+}

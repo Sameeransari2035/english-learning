@@ -1,93 +1,108 @@
 // ============================================
-// LEADERBOARD LOGIC
+// GLOBAL LEADERBOARD (Firebase with polling)
 // ============================================
 
-function getLeaderboard() {
-  try {
-    return JSON.parse(localStorage.getItem('leaderboard') || '[]');
-  } catch (e) {
-    return [];
+let db, ref, push, onValue, query, orderByChild, limitToLast;
+
+// Firebase ready hone ka wait karo
+function waitForFirebase() {
+  if (window.firebaseDB) {
+    db = window.firebaseDB;
+    ref = window.firebaseRef;
+    push = window.firebasePush;
+    onValue = window.firebaseOnValue;
+    query = window.firebaseQuery;
+    orderByChild = window.firebaseOrderByChild;
+    limitToLast = window.firebaseLimitToLast;
+
+    console.log('✅ Firebase ready for leaderboard');
+    renderLeaderboard();
+  } else {
+    setTimeout(waitForFirebase, 100);
   }
-}
-
-function saveLeaderboard(list) {
-  localStorage.setItem('leaderboard', JSON.stringify(list));
-}
-
-function addScore(name, score, maxScore) {
-  const leaderboard = getLeaderboard();
-
-  const entry = {
-    name: name.trim() || 'Anonymous',
-    score: score,
-    maxScore: maxScore,
-    date: new Date().toLocaleDateString('en-IN', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric'
-    }),
-    timestamp: Date.now()
-  };
-
-  leaderboard.push(entry);
-
-  // Sort: high score first, then recent
-  leaderboard.sort((a, b) => {
-    if (b.score !== a.score) return b.score - a.score;
-    return b.timestamp - a.timestamp;
-  });
-
-  // Keep only top 20
-  const top20 = leaderboard.slice(0, 20);
-  saveLeaderboard(top20);
 }
 
 // ============================================
 // RENDER LEADERBOARD
 // ============================================
 function renderLeaderboard() {
-  const leaderboard = getLeaderboard();
   const podium = document.getElementById('podium');
   const rankingList = document.getElementById('rankingList');
   const emptyState = document.getElementById('emptyLeaderboard');
 
-  if (leaderboard.length === 0) {
-    podium.innerHTML = '';
+  if (!podium || !rankingList) return;
+
+  const scoresRef = ref(db, 'leaderboard');
+  const topScoresQuery = query(scoresRef, orderByChild('score'), limitToLast(20));
+
+  onValue(topScoresQuery, (snapshot) => {
+    const data = snapshot.val();
+
+    if (!data) {
+      podium.innerHTML = '';
+      rankingList.innerHTML = '';
+      if (emptyState) emptyState.style.display = 'block';
+      document.querySelector('.podium-section').style.display = 'none';
+      document.querySelector('.ranking-section').style.display = 'none';
+      return;
+    }
+
+    if (emptyState) emptyState.style.display = 'none';
+    document.querySelector('.podium-section').style.display = 'block';
+    document.querySelector('.ranking-section').style.display = 'block';
+
+    const leaderboard = Object.values(data).sort((a, b) => {
+  if (b.score !== a.score) return b.score - a.score;
+  return a.timestamp - b.timestamp; // Pehle wala upar
+});
+
+    renderPodium(leaderboard, podium);
+
     rankingList.innerHTML = '';
-    emptyState.style.display = 'block';
-    document.querySelector('.podium-section').style.display = 'none';
-    document.querySelector('.ranking-section').style.display = 'none';
-    return;
-  }
-
-  emptyState.style.display = 'none';
-  document.querySelector('.podium-section').style.display = 'block';
-  document.querySelector('.ranking-section').style.display = 'block';
-
-  // === PODIUM (Top 3) ===
-  renderPodium(leaderboard, podium);
-
-  // === FULL RANKING LIST ===
-  rankingList.innerHTML = '';
-  leaderboard.forEach((entry, index) => {
-    const rank = index + 1;
-    const medal = getMedal(rank);
-    const row = document.createElement('div');
-    row.className = 'ranking-row' + (rank <= 3 ? ' top-' + rank : '');
-    row.innerHTML = `
-      <span class="rank-number">${medal || rank}</span>
-      <span class="rank-name">${escapeHtml(entry.name)}</span>
-      <span class="rank-score">${entry.score}/${entry.maxScore}</span>
-      <span class="rank-date">${entry.date}</span>
-    `;
-    rankingList.appendChild(row);
+    leaderboard.forEach((entry, index) => {
+      const rank = index + 1;
+      const medal = getMedal(rank);
+      const row = document.createElement('div');
+      row.className = 'ranking-row' + (rank <= 3 ? ' top-' + rank : '');
+      row.innerHTML = `
+        <span class="rank-number">${medal || rank}</span>
+        <span class="rank-name">${escapeHtml(entry.name)}</span>
+        <span class="rank-score">${entry.score}/${entry.maxScore}</span>
+        <span class="rank-date">${formatDate(entry.timestamp)}</span>
+      `;
+      rankingList.appendChild(row);
+    });
   });
 }
 
+// ============================================
+// SAVE SCORE TO FIREBASE (quiz.js se call hoga)
+// ============================================
+function saveScoreToFirebase(name, score, maxScore) {
+  if (!window.firebaseDB) {
+    console.error('Firebase ready nahi hai');
+    return;
+  }
+
+  const scoresRef = window.firebaseRef(window.firebaseDB, 'leaderboard');
+  window.firebasePush(scoresRef, {
+    name: name.trim() || 'Anonymous',
+    score: score,
+    maxScore: maxScore,
+    timestamp: Date.now()
+  })
+  .then(() => console.log('✅ Score saved to Firebase'))
+  .catch((err) => {
+    console.error('❌ Save error:', err);
+    alert('Score save nahi ho paya. Internet check karo.');
+  });
+}
+
+// ============================================
+// PODIUM RENDER
+// ============================================
 function renderPodium(leaderboard, container) {
   container.innerHTML = '';
-
-  // Order: 2nd, 1st, 3rd (visual podium)
   const order = [1, 0, 2];
   const heights = ['small', 'big', 'medium'];
 
@@ -124,6 +139,9 @@ function renderPodium(leaderboard, container) {
   });
 }
 
+// ============================================
+// HELPERS
+// ============================================
 function getMedal(rank) {
   if (rank === 1) return '🥇';
   if (rank === 2) return '🥈';
@@ -137,18 +155,17 @@ function escapeHtml(str) {
   return div.innerHTML;
 }
 
-// ============================================
-// CLEAR LEADERBOARD
-// ============================================
-function clearLeaderboard() {
-  if (confirm('Kya aap sach mein saare leaderboard scores clear karna chahte ho? Ye wapas nahi aayenge!')) {
-    localStorage.removeItem('leaderboard');
-    renderLeaderboard();
-    alert('Leaderboard clear ho gaya! 🗑️');
-  }
+function formatDate(timestamp) {
+  if (!timestamp) return '';
+  const d = new Date(timestamp);
+  return d.toLocaleDateString('en-IN', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric'
+  });
 }
 
 // ============================================
-// INIT
+// START
 // ============================================
-window.addEventListener('DOMContentLoaded', renderLeaderboard);
+waitForFirebase();
