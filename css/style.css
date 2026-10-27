@@ -3367,3 +3367,18 @@ html.dark-mode .wod-body p {
     display: none !important;
   }
 }
+/* ============================================
+   DARK MODE TEXT FIXES (Home Page Stats)
+   ============================================ */
+html.dark-mode .stats h2 {
+  color: #f1f5f9 !important;
+}
+
+html.dark-mode .stat-label {
+  color: #cbd5e1 !important;
+}
+
+/* Agar Word of the Day ka heading bhi kaala dikh raha ho toh */
+html.dark-mode .wod-header h2 {
+  color: #f1f5f9 !important;
+}
