@@ -1,3 +1,8 @@
+// Confetti Library Load karo (Internet se)
+const confettiScript = document.createElement('script');
+confettiScript.src = "https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js";
+document.head.appendChild(confettiScript);
+
 // ============================================
 // QUIZ QUESTIONS
 // ============================================
@@ -190,6 +195,38 @@ function showResults() {
     // askNameAndSaveToLeaderboard(); // Isko hatao
   if (checkLoginBeforeScore()) {
     askNameAndSaveToLeaderboard();
+  }
+    // ===== CONFETTI CELEBRATION =====
+  // Agar user ka score 80% ya usse zyada hai, toh confetti chalao
+  if (percentage >= 80) {
+    // Thoda wait karo taaki Result Card pehle dikh jaye
+    setTimeout(() => {
+      if (typeof confetti === 'function') {
+        // Dhamakedaar confetti!
+        confetti({
+          particleCount: 150,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ['#6366f1', '#a855f7', '#fbbf24', '#10b981']
+        });
+
+        // Thodi der baad ek aur burst (double dhamaka)
+        setTimeout(() => {
+          confetti({
+            particleCount: 100,
+            angle: 60,
+            spread: 55,
+            origin: { x: 0 }
+          });
+          confetti({
+            particleCount: 100,
+            angle: 120,
+            spread: 55,
+            origin: { x: 1 }
+          });
+        }, 400);
+      }
+    }, 300);
   }
 }
 
