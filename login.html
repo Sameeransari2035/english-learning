@@ -105,6 +105,41 @@
 
   <script src="js/auth.js"></script>
   <script src="js/nav-updater.js"></script>
+    <!-- Floating Feedback Button -->
+  <button id="feedbackBtn" class="floating-feedback-btn" title="Feedback Dein">💬</button>
+
+  <!-- Feedback Modal -->
+  <div id="feedbackModal" class="feedback-modal">
+    <div class="feedback-modal-content">
+      <span class="close-feedback" id="closeFeedback">&times;</span>
+      <h2>💡 Aapka Feedback</h2>
+      <p style="color: var(--gray); margin-bottom: 1rem; font-size: 0.9rem;">Website ko behtar banane ke liye aapki raay zaroori hai!</p>
+      
+      <form id="feedbackForm">
+        <!-- Star Rating -->
+        <div class="star-rating">
+          <input type="radio" id="star5" name="rating" value="5" required><label for="star5">★</label>
+          <input type="radio" id="star4" name="rating" value="4"><label for="star4">★</label>
+          <input type="radio" id="star3" name="rating" value="3"><label for="star3">★</label>
+          <input type="radio" id="star2" name="rating" value="2"><label for="star2">★</label>
+          <input type="radio" id="star1" name="rating" value="1"><label for="star1">★</label>
+        </div>
+
+        <div class="form-group" style="margin-top: 1.5rem;">
+          <textarea id="feedbackText" placeholder="Aapko website kaisi lagi? Kya naya add karna chahiye?" rows="4" required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Feedback</button>
+      </form>
+      
+      <div id="feedbackSuccess" style="display: none; text-align: center; color: var(--success); margin-top: 1rem; font-weight: 600;">
+        ✅ Dhanyawad! Aapka feedback mil gaya hai.
+      </div>
+    </div>
+  </div>
+
+  <!-- Feedback Logic -->
+  <script src="js/feedback.js"></script>
 </body>
 
 </html>
