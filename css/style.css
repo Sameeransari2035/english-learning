@@ -1274,18 +1274,40 @@ html.dark-mode .menu-toggle span {
 
   /* === NAVBAR MOBILE === */
   .navbar {
-    padding: 0.9rem 1rem;
+    padding: 0.8rem 1rem;
+    flex-wrap: nowrap;
     position: sticky;
     top: 0;
     height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 
   .logo {
     font-size: 1.05rem;
+    flex: 1;
   }
 
+  /* User Area (Sirf naam dikhega ab) */
+  #navUserArea {
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* Right side push karega */
+    margin-right: 0.8rem;
+  }
+
+  /* Dark Mode Toggle ko mobile navbar se HIDE kar dein */
+  .theme-toggle {
+    display: none !important; 
+  }
+
+  /* Menu Toggle Icon */
   .menu-toggle {
     display: flex;
+    margin-left: 0.5rem;
+    width: 30px;
+    height: 30px;
   }
 
   .nav-links {
@@ -3318,5 +3340,30 @@ html.dark-mode .wod-body p {
 
   .wod-body h3 {
     font-size: 2rem;
+  }
+}
+/* ============================================
+   STRICT MOBILE & DESKTOP FIXES
+   ============================================ */
+
+/* 1. DESKTOP PAR: Hamburger menu ke andar wale buttons HAMESHA HIDE rahenge */
+@media (min-width: 601px) {
+  #mobileLogoutLi, 
+  #mobileThemeLi {
+    display: none !important;
+  }
+}
+
+/* 2. MOBILE PAR: Navbar ke upar wale buttons HAMESHA HIDE rahenge */
+@media (max-width: 600px) {
+  /* User area (Naam/Logout) ko mobile navbar se hatao */
+  #navUserArea button, 
+  #navUserArea .btn {
+    display: none !important;
+  }
+  
+  /* Dark mode icon ko mobile navbar se hatao */
+  .theme-toggle {
+    display: none !important;
   }
 }
