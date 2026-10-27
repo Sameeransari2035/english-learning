@@ -47,8 +47,11 @@
     <li><a href="dashboard.html">Dashboard</a></li>
     <li><a href="leaderboard.html">Leaderboard</a></li>
     <li><a href="contact.html">Contact</a></li>
-    <li><a href="login.html" id="navLoginBtn">Login</a></li>
   </ul>
+      <!-- User Status / Logout -->
+    <div id="navUserArea" style="display: flex; align-items: center; gap: 0.5rem; margin-left: 1rem;">
+      <!-- JavaScript isko bhar dega -->
+    </div>
 </nav>
 
   <header class="page-header">
@@ -57,6 +60,24 @@
       👋 Namaste, <span id="dashUserName">User</span>!
     </p>
   </div>
+      <!-- Profile Card -->
+    <section class="dash-section" style="margin-top: 2rem;">
+      <div class="profile-card" style="background: var(--white); padding: 1.5rem; border-radius: 16px; box-shadow: var(--shadow-sm); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <div style="width: 60px; height: 60px; background: var(--gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; font-weight: bold;" id="profileAvatar">
+            U
+          </div>
+          <div>
+            <h3 style="margin-bottom: 0.2rem; color: var(--dark);" id="profileName">User</h3>
+            <p style="font-size: 0.9rem; color: var(--gray);" id="profileEmail">user@email.com</p>
+          </div>
+        </div>
+        <button onclick="logoutUser()" class="btn btn-reset" style="padding: 0.6rem 1.2rem; font-size: 0.9rem;">
+          🚪 Logout
+        </button>
+      </div>
+    </section>
+
     <h1>📊 Tumhara Dashboard</h1>
     <p>Apni progress dekho aur aage badho!</p>
   </header>
@@ -99,6 +120,20 @@
           <div class="level-fill" id="levelFill"></div>
         </div>
         <p class="level-hint" id="levelHint">Agle level tak 50 points aur chahiye!</p>
+      </div>
+    </section>
+
+        <!-- Weekly Streak Calendar -->
+    <section class="dash-section" style="margin-top: 2rem;">
+      <h2>🔥 Weekly Streak</h2>
+      <div class="calendar-box">
+        <div class="calendar-header">
+          <span id="currentMonthYear">Loading...</span>
+          <span class="streak-badge">Current Streak: <strong id="calStreakCount">0</strong> Days</span>
+        </div>
+        <div class="calendar-days" id="calendarGrid">
+          <!-- JavaScript se 7 din ke boxes aayenge -->
+        </div>
       </div>
     </section>
 
@@ -159,5 +194,6 @@
     </div>
   </div>
 </div>
+<script src="js/nav-updater.js"></script>
 </body>
 </html>

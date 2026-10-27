@@ -33,6 +33,23 @@ function getLevel(points) {
 // LOAD DASHBOARD
 // ============================================
 function loadDashboard() {
+
+  function loadDashboard() {
+  // ===== PROFILE CARD UPDATE =====
+  const userEmail = localStorage.getItem('currentUser') || 'Guest';
+  const userName = localStorage.getItem('userName') || 'User';
+  
+  const nameEl = document.getElementById('profileName');
+  const emailEl = document.getElementById('profileEmail');
+  const avatarEl = document.getElementById('profileAvatar');
+
+  if (nameEl) nameEl.textContent = userName;
+  if (emailEl) emailEl.textContent = userEmail;
+  if (avatarEl) avatarEl.textContent = userName.charAt(0).toUpperCase();
+
+  // ... (baaki aapka purana code points, badges, level wagerah) ...
+}
+
   const points = parseInt(localStorage.getItem('points') || 0);
   const badges = JSON.parse(localStorage.getItem('badgeList') || '[]');
   const streak = parseInt(localStorage.getItem('streak') || 0);
@@ -67,6 +84,8 @@ function loadDashboard() {
 
   // Activity
   renderActivity(lastPlayed, quizCount, points);
+  // 🔥 Calendar Render karo
+  renderCalendar(); 
 }
 
 // ============================================
@@ -176,3 +195,71 @@ function loadUserName() {
 // Page load hote hi dono functions chalao
 loadUserName();
 loadDashboard();
+
+// Logout Function (Dashboard ke liye)
+function logoutUser() {
+  if (confirm("Kya aap sach mein logout karna chahte hain?")) {
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('userName');
+    alert("Aap successfully logout ho gaye hain! 👋");
+    window.location.href = 'index.html';
+  }
+}
+
+// ============================================
+// WEEKLY STREAK CALENDAR
+// ============================================
+function renderCalendar() {
+  const calendarGrid = document.getElementById('calendarGrid');
+  const monthYearEl = document.getElementById('currentMonthYear');
+  const streakCountEl = document.getElementById('calStreakCount');
+  
+  if (!calendarGrid) return;
+
+  const lastPlayed = localStorage.getItem('lastPlayed');
+  const streak = parseInt(localStorage.getItem('streak') || 0);
+  
+  if (streakCountEl) streakCountEl.textContent = streak;
+
+  // Aaj ki date
+  const today = new Date();
+  const currentMonth = today.toLocaleString('en-IN', { month: 'long', year: 'numeric' });
+  if (monthYearEl) monthYearEl.textContent = currentMonth;
+
+  calendarGrid.innerHTML = '';
+  const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+  // Pichhle 7 din ka loop (aaj se 6 din pehle tak)
+  for (let i = 6; i >= 0; i--) {
+    const date = new Date();
+    date.setDate(today.getDate() - i);
+    
+    const dateString = date.toDateString();
+    const isToday = i === 0;
+    
+    // Check karo ki user ne us din khela tha ya nahi
+    // (Agar lastPlayed match karta hai ya streak ke hisaab se active hai)
+    // Ek simple logic: Agar lastPlayed aaj hai, toh pichhle streak din tak ke tick lagao
+    let isPlayed = false;
+    if (lastPlayed) {
+      const lastPlayedDate = new Date(lastPlayed);
+      const diffTime = Math.abs(today - lastPlayedDate);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      
+      // Agar user ne aaj khela hai, toh pichhle streak din tak tick lagao
+      if (i === 0 && lastPlayed === today.toDateString()) isPlayed = true;
+      // Agar kal khela tha, toh usse pehle wale din
+      if (i <= streak && i !== 0) isPlayed = true; 
+    }
+
+    const dayBox = document.createElement('div');
+    dayBox.className = `cal-day ${isToday ? 'today' : ''} ${isPlayed ? 'played' : ''}`;
+    dayBox.innerHTML = `
+      <span class="cal-day-name">${dayNames[date.getDay()]}</span>
+      <span class="cal-date">${date.getDate()}</span>
+      ${isPlayed ? '<span class="cal-check">✅</span>' : ''}
+    `;
+    
+    calendarGrid.appendChild(dayBox);
+  }
+}

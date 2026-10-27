@@ -107,3 +107,23 @@ function showError(msg) {
   }
   authError.style.display = 'block';
 }
+// ============================================
+// LOGOUT FUNCTION
+// ============================================
+function logoutUser() {
+  if (confirm("Kya aap sach mein logout karna chahte hain?")) {
+    // Saara local data clear karo
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('userName');
+    // Agar aap chahte hain ki progress bhi clear ho, toh ye lines uncomment karein:
+    // localStorage.removeItem('points');
+    // localStorage.removeItem('badges');
+    // localStorage.removeItem('badgeList');
+    // localStorage.removeItem('streak');
+    // localStorage.removeItem('lastPlayed');
+    // localStorage.removeItem('quizCount');
+    
+    alert("Aap successfully logout ho gaye hain! 👋");
+    window.location.href = 'index.html'; // Home page par bhej do
+  }
+}
