@@ -33,36 +33,54 @@ function getLevel(points) {
 // LOAD DASHBOARD
 // ============================================
 function loadDashboard() {
-
-  function loadDashboard() {
   // ===== PROFILE CARD UPDATE =====
-  const userEmail = localStorage.getItem('currentUser') || 'Guest';
-  const userName = localStorage.getItem('userName') || 'User';
-  
+  let userEmail = localStorage.getItem('currentUser') || 'Guest';
+  let userName = localStorage.getItem('userName');
+
+  // Agar naam save nahi hai ya default 'User' hai
+  if (!userName || userName === 'User') {
+    if (userEmail.includes('@')) {
+      // Email ke aage wala part lo (jaise naseemahmed2035)
+      let rawName = userEmail.split('@')[0]; 
+      
+      // Numbers aur special characters hata do
+      rawName = rawName.replace(/[0-9]/g, '');
+      
+      // Pehla letter capital kar do
+      if (rawName.length > 0) {
+        userName = rawName.charAt(0).toUpperCase() + rawName.slice(1);
+      } else {
+        userName = 'User'; // Agar naam sirf numbers ka tha
+      }
+    } else {
+      userName = 'User';
+    }
+    localStorage.setItem('userName', userName); // Naya saaf naam save karo
+  }
+
   const nameEl = document.getElementById('profileName');
   const emailEl = document.getElementById('profileEmail');
   const avatarEl = document.getElementById('profileAvatar');
+  const dashNameEl = document.getElementById('dashUserName');
 
   if (nameEl) nameEl.textContent = userName;
   if (emailEl) emailEl.textContent = userEmail;
   if (avatarEl) avatarEl.textContent = userName.charAt(0).toUpperCase();
+  if (dashNameEl) dashNameEl.textContent = userName;
 
-  // ... (baaki aapka purana code points, badges, level wagerah) ...
-}
-
+  // ===== STATS CARDS =====
   const points = parseInt(localStorage.getItem('points') || 0);
   const badges = JSON.parse(localStorage.getItem('badgeList') || '[]');
   const streak = parseInt(localStorage.getItem('streak') || 0);
   const quizCount = parseInt(localStorage.getItem('quizCount') || 0);
   const lastPlayed = localStorage.getItem('lastPlayed');
 
-  // Stats cards
   document.getElementById('dashPoints').textContent = points;
   document.getElementById('dashBadges').textContent = badges.length;
   document.getElementById('dashStreak').textContent = streak;
   document.getElementById('dashQuizCount').textContent = quizCount;
 
-  // Level
+  // ===== LEVEL =====
   const currentLevel = getLevel(points);
   document.getElementById('levelName').textContent = currentLevel.name;
   document.getElementById('levelPoints').textContent =
@@ -79,13 +97,10 @@ function loadDashboard() {
     document.getElementById('levelHint').textContent = 'Tum top level par ho! 🎉';
   }
 
-  // Badges
+  // ===== BADGES & ACTIVITY =====
   renderBadges(badges);
-
-  // Activity
   renderActivity(lastPlayed, quizCount, points);
-  // 🔥 Calendar Render karo
-  renderCalendar(); 
+  renderCalendar();
 }
 
 // ============================================
@@ -155,10 +170,8 @@ function resetProgress() {
   const confirmBtn = document.getElementById('confirmResetBtn');
   const cancelBtn = document.getElementById('cancelResetBtn');
 
-  // Modal ko show karo
   modal.style.display = 'flex';
 
-  // Haan, Delete Karo
   confirmBtn.onclick = function () {
     localStorage.removeItem('points');
     localStorage.removeItem('badges');
@@ -167,36 +180,18 @@ function resetProgress() {
     localStorage.removeItem('lastPlayed');
     localStorage.removeItem('quizCount');
 
-    modal.style.display = 'none'; // Modal band karo
-    
-
-    // Aur loadDashboard() ke andar sabse upar isko call kar do:
-    // loadUserName();
-    loadDashboard(); // Dashboard ko turant update karo
+    modal.style.display = 'none';
+    loadDashboard();
   };
 
-  // Nahi, Wapas Jao
   cancelBtn.onclick = function () {
-    modal.style.display = 'none'; // Bas modal band karo
+    modal.style.display = 'none';
   };
 }
-// ============================================
-// LOAD USER NAME
-// ============================================
-function loadUserName() {
-  const name = localStorage.getItem('userName') || 'User';
-  const el = document.getElementById('dashUserName');
-  if (el) el.textContent = name;
-}
 
 // ============================================
-// START
+// LOGOUT FUNCTION
 // ============================================
-// Page load hote hi dono functions chalao
-loadUserName();
-loadDashboard();
-
-// Logout Function (Dashboard ke liye)
 function logoutUser() {
   if (confirm("Kya aap sach mein logout karna chahte hain?")) {
     localStorage.removeItem('currentUser');
@@ -213,15 +208,14 @@ function renderCalendar() {
   const calendarGrid = document.getElementById('calendarGrid');
   const monthYearEl = document.getElementById('currentMonthYear');
   const streakCountEl = document.getElementById('calStreakCount');
-  
+
   if (!calendarGrid) return;
 
   const lastPlayed = localStorage.getItem('lastPlayed');
   const streak = parseInt(localStorage.getItem('streak') || 0);
-  
+
   if (streakCountEl) streakCountEl.textContent = streak;
 
-  // Aaj ki date
   const today = new Date();
   const currentMonth = today.toLocaleString('en-IN', { month: 'long', year: 'numeric' });
   if (monthYearEl) monthYearEl.textContent = currentMonth;
@@ -229,26 +223,18 @@ function renderCalendar() {
   calendarGrid.innerHTML = '';
   const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-  // Pichhle 7 din ka loop (aaj se 6 din pehle tak)
   for (let i = 6; i >= 0; i--) {
     const date = new Date();
     date.setDate(today.getDate() - i);
-    
+
     const dateString = date.toDateString();
     const isToday = i === 0;
-    
-    // Check karo ki user ne us din khela tha ya nahi
-    // (Agar lastPlayed match karta hai ya streak ke hisaab se active hai)
-    // Ek simple logic: Agar lastPlayed aaj hai, toh pichhle streak din tak ke tick lagao
+
     let isPlayed = false;
     if (lastPlayed) {
-      const lastPlayedDate = new Date(lastPlayed);
-      const diffTime = Math.abs(today - lastPlayedDate);
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      
-      // Agar user ne aaj khela hai, toh pichhle streak din tak tick lagao
+      // Agar aaj khela hai, toh tick lagao
       if (i === 0 && lastPlayed === today.toDateString()) isPlayed = true;
-      // Agar kal khela tha, toh usse pehle wale din
+      // Streak ke hisaab se pichhle dinon par tick lagao
       if (i <= streak && i !== 0) isPlayed = true; 
     }
 
@@ -259,7 +245,45 @@ function renderCalendar() {
       <span class="cal-date">${date.getDate()}</span>
       ${isPlayed ? '<span class="cal-check">✅</span>' : ''}
     `;
-    
     calendarGrid.appendChild(dayBox);
+  }
+}
+
+// ============================================
+// START
+// ============================================
+document.addEventListener('DOMContentLoaded', loadDashboard);
+
+// ============================================
+// EDIT USER NAME FUNCTION
+// ============================================
+function editUserName() {
+  // Purana naam nikaalo (ya khali string)
+  const currentName = localStorage.getItem('userName') || '';
+  
+  // User se naya naam pucho
+  let newName = prompt("Apna naya naam likhein:", currentName);
+  
+  // Agar user ne Cancel nahi kiya aur khali naam nahi daala
+  if (newName !== null && newName.trim() !== "") {
+    newName = newName.trim();
+    
+    // Naya naam local storage mein save karo
+    localStorage.setItem('userName', newName);
+    
+    // Dashboard par turant update karo
+    loadDashboard();
+    
+    // Navbar par bhi update karo (agar nav-updater.js load hai)
+    if (typeof updateNavbar === 'function') {
+      updateNavbar();
+    }
+    
+    // Agar toast system hai toh notification dikhao
+    if (typeof showToast === 'function') {
+      showToast("Naam successfully update ho gaya!", "success");
+    } else {
+      alert("Naam successfully update ho gaya!");
+    }
   }
 }

@@ -3367,9 +3367,8 @@ html.dark-mode .wod-body p {
 /* 2. MOBILE PAR: Navbar ke upar wale buttons HAMESHA HIDE rahenge */
 @media (max-width: 600px) {
 
-  /* User area (Naam/Logout) ko mobile navbar se hatao */
-  #navUserArea button,
-  #navUserArea .btn {
+  /* Logout button ko mobile navbar se hatao (par Login ko rehne do) */
+  #navUserArea button { 
     display: none !important;
   }
 

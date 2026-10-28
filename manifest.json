@@ -1,0 +1,21 @@
+{
+  "name": "English Seekho - Hindi se English",
+  "short_name": "English Seekho",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#6366f1",
+  "description": "Hindi se English seekho aasaan tarike se. Grammar, Quiz, Vocabulary aur Games.",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -27,6 +27,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#6366f1">
   <script src="js/dark-mode.js"></script>
 </head>
 <body>
@@ -63,13 +65,17 @@
   </div>
       <!-- Profile Card -->
     <section class="dash-section" style="margin-top: 2rem;">
-      <div class="profile-card" style="background: var(--white); padding: 1.5rem; border-radius: 16px; box-shadow: var(--shadow-sm); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+            <div class="profile-card" style="background: var(--white); padding: 1.5rem; border-radius: 16px; box-shadow: var(--shadow-sm); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
         <div style="display: flex; align-items: center; gap: 1rem;">
           <div style="width: 60px; height: 60px; background: var(--gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; font-weight: bold;" id="profileAvatar">
             U
           </div>
           <div>
-            <h3 style="margin-bottom: 0.2rem; color: var(--dark);" id="profileName">User</h3>
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <h3 style="margin-bottom: 0.2rem; color: var(--dark);" id="profileName">User</h3>
+              <!-- Edit Button -->
+              <button onclick="editUserName()" style="background: none; border: none; cursor: pointer; font-size: 1rem; padding: 0;" title="Naam Badlein">✏️</button>
+            </div>
             <p style="font-size: 0.9rem; color: var(--gray);" id="profileEmail">user@email.com</p>
           </div>
         </div>
@@ -267,5 +273,6 @@
   <!-- Feedback Logic -->
   <script src="js/feedback.js"></script>
   <script src="js/toast.js"></script>
+  <script src="js/pwa.js"></script>
 </body>
 </html>

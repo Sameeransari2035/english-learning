@@ -1,5 +1,5 @@
 // ============================================
-// TOAST NOTIFICATION SYSTEM
+// TOAST NOTIFICATION SYSTEM (Fixed Flash)
 // ============================================
 function showToast(message, type = 'info') {
   // Container banao agar nahi hai
@@ -23,19 +23,27 @@ function showToast(message, type = 'info') {
 
   toast.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
   
+  // Sabse pehle toast ko invisible (chhupa hua) rakho
+  toast.style.opacity = '0';
   container.appendChild(toast);
 
-  // Animation ke liye thoda wait karo
-  setTimeout(() => {
-    toast.classList.add('show');
-  }, 10);
+  // Browser ko thoda sa time do taaki wo toast ko DOM mein daal de
+  // Uske baad animation trigger karo taaki flash na ho
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      toast.classList.add('show');
+      toast.style.opacity = '1'; // Wapas visible karo
+    }, 10);
+  });
 
   // 3 second baad hatao
   setTimeout(() => {
     toast.classList.remove('show');
+    toast.style.opacity = '0';
+    
     // Animation complete hone ke baad DOM se remove karo
     setTimeout(() => {
       toast.remove();
-    }, 400);
+    }, 400); // 400ms transition ke liye
   }, 3000);
 }
