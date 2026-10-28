@@ -87,21 +87,20 @@ body {
 /* ============================================
    NAVBAR
    ============================================ */
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 2px 20px rgba(99, 102, 241, 0.08);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  border-bottom: 1px solid rgba(99, 102, 241, 0.1);
-}
-
+ .navbar {
+    padding: 0.8rem 1rem;
+    flex-wrap: nowrap;
+    position: sticky;
+    top: 0;
+    height: 60px;
+    width: 100%;        /* 👈 Ye line add karein */
+    max-width: 100vw;   /* 👈 Ye line add karein */
+    overflow-x: hidden; /* 👈 Ye line add karein */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
 .logo {
   font-size: 1.35rem;
   font-weight: 800;
