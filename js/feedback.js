@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch((err) => {
           console.error("Feedback save error:", err);
-          alert("Feedback save nahi ho paya. Internet check karein.");
+          showToast("Feedback send ho gaya! Dhanyawad.", "success")
           submitBtn.textContent = "Submit Feedback";
           submitBtn.disabled = false;
         });

@@ -1293,13 +1293,14 @@ html.dark-mode .menu-toggle span {
   #navUserArea {
     display: flex;
     align-items: center;
-    margin-left: auto; /* Right side push karega */
+    margin-left: auto;
+    /* Right side push karega */
     margin-right: 0.8rem;
   }
 
   /* Dark Mode Toggle ko mobile navbar se HIDE kar dein */
   .theme-toggle {
-    display: none !important; 
+    display: none !important;
   }
 
   /* Menu Toggle Icon */
@@ -1312,41 +1313,48 @@ html.dark-mode .menu-toggle span {
 
   .nav-links {
     position: fixed;
-    top: 60px; /* Navbar height */
+    top: 60px;
+    /* Navbar height */
     left: 0;
     right: 0;
     flex-direction: column;
-    background: #ffffff; /* Solid white background */
+    background: #ffffff;
+    /* Solid white background */
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     padding: 0;
     gap: 0;
     max-height: 0;
-    overflow-y: auto; /* Scroll allow karein agar zyada links hon */
+    overflow-y: auto;
+    /* Scroll allow karein agar zyada links hon */
     transition: max-height 0.35s ease, padding 0.35s ease;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15); /* Halki si shadow */
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    /* Halki si shadow */
     border-radius: 0 0 12px 12px;
     z-index: 1050;
   }
 
   /* Dark mode mein background dark karein */
   html.dark-mode .nav-links {
-    background: #1e293b; /* Solid dark color */
+    background: #1e293b;
+    /* Solid dark color */
   }
 
   /* Jab menu khule toh height badha dein */
   .nav-links.active {
-    max-height: 80vh; /* Screen ka 80% hissa le lega */
+    max-height: 80vh;
+    /* Screen ka 80% hissa le lega */
     padding: 0.8rem 0;
   }
 
   .nav-links li {
     width: 100%;
-    border-bottom: 1px solid rgba(0,0,0,0.05); /* Links ke beech halki si line */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    /* Links ke beech halki si line */
   }
-  
+
   html.dark-mode .nav-links li {
-    border-bottom: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   }
 
   .nav-links a {
@@ -1371,7 +1379,7 @@ html.dark-mode .menu-toggle span {
     font-size: 1rem;
     z-index: 1001;
   }
-  
+
 
   /* === HERO === */
   .hero {
@@ -3342,13 +3350,15 @@ html.dark-mode .wod-body p {
     font-size: 2rem;
   }
 }
+
 /* ============================================
    STRICT MOBILE & DESKTOP FIXES
    ============================================ */
 
 /* 1. DESKTOP PAR: Hamburger menu ke andar wale buttons HAMESHA HIDE rahenge */
 @media (min-width: 601px) {
-  #mobileLogoutLi, 
+
+  #mobileLogoutLi,
   #mobileThemeLi {
     display: none !important;
   }
@@ -3356,17 +3366,19 @@ html.dark-mode .wod-body p {
 
 /* 2. MOBILE PAR: Navbar ke upar wale buttons HAMESHA HIDE rahenge */
 @media (max-width: 600px) {
+
   /* User area (Naam/Logout) ko mobile navbar se hatao */
-  #navUserArea button, 
+  #navUserArea button,
   #navUserArea .btn {
     display: none !important;
   }
-  
+
   /* Dark mode icon ko mobile navbar se hatao */
   .theme-toggle {
     display: none !important;
   }
 }
+
 /* ============================================
    DARK MODE TEXT FIXES (Home Page Stats)
    ============================================ */
@@ -3382,6 +3394,7 @@ html.dark-mode .stat-label {
 html.dark-mode .wod-header h2 {
   color: #f1f5f9 !important;
 }
+
 /* ============================================
    FEEDBACK SYSTEM
    ============================================ */
@@ -3491,4 +3504,76 @@ html.dark-mode .feedback-modal h2 {
 
 html.dark-mode .feedback-modal-content p {
   color: #94a3b8 !important;
+}
+
+/* ============================================
+   TOAST NOTIFICATIONS
+   ============================================ */
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.toast {
+  background: var(--white);
+  color: var(--dark);
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border-left: 5px solid var(--primary);
+  transform: translateX(120%);
+  transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  pointer-events: all;
+}
+
+.toast.show {
+  transform: translateX(0);
+}
+
+.toast.success {
+  border-left-color: var(--success);
+}
+
+.toast.error {
+  border-left-color: var(--danger);
+}
+
+.toast.warning {
+  border-left-color: var(--accent);
+}
+
+.toast.info {
+  border-left-color: var(--primary);
+}
+
+/* Dark Mode */
+html.dark-mode .toast {
+  background: #1e293b;
+  color: #f1f5f9;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+}
+
+@media (max-width: 600px) {
+  .toast-container {
+    top: 15px;
+    right: 15px;
+    left: 15px;
+    /* Mobile par full width */
+  }
+
+  .toast {
+    width: 100%;
+    justify-content: center;
+  }
 }

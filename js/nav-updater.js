@@ -76,8 +76,8 @@ function logoutUser(e) {
   if (confirm("Kya aap sach mein logout karna chahte hain?")) {
     localStorage.removeItem('currentUser');
     localStorage.removeItem('userName');
-    alert("Aap successfully logout ho gaye hain! 👋");
-    window.location.href = 'index.html';
+    showToast("Successfully logout ho gaye! 👋", "success");
+    setTimeout(() => window.location.href = 'index.html', 1000); // 1 sec baad redirect
   }
 }
 

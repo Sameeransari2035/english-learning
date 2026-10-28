@@ -390,7 +390,7 @@ function waitForFirebaseAndSave(name, score, maxScore) {
       maxScore: maxScore,
       timestamp: Date.now()
     })
-      .then(() => console.log('✅ Score saved'))
+      .then(() => showToast("Score Leaderboard par save ho gaya!", "success"))
       .catch(err => console.error('❌ Save error:', err));
   } else if (firebaseAttempts < MAX_ATTEMPTS) {
     firebaseAttempts++;
