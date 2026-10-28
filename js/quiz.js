@@ -41,6 +41,37 @@ const quizQuestions = [
     options: ["go", "goes", "going", "gone"],
     correct: 1,
     explanation: "He/She/It ke saath verb mein 's' ya 'es' lagta hai — 'goes'."
+  },
+    ,
+  {
+    question: "Sahi verb chuno: 'She ___ a beautiful song.'",
+    options: ["sing", "sings", "singing", "sang"],
+    correct: 1,
+    explanation: "Present tense mein He/She/It ke saath verb mein 's' lagta hai."
+  },
+  {
+    question: "Sahi past tense chuno: 'I ___ to the market yesterday.'",
+    options: ["go", "goes", "went", "gone"],
+    correct: 2,
+    explanation: "'Yesterday' past time batata hai, isliye 'went' (go ka past form) lagega."
+  },
+  {
+    question: "Sahi preposition chuno: 'The cat is ___ the table.'",
+    options: ["in", "on", "at", "for"],
+    correct: 1,
+    explanation: "Cheez ke upar hone ke liye 'on' use hota hai."
+  },
+  {
+    question: "Inme se kaunsa adjective (visheshan) hai?",
+    options: ["Run", "Beautiful", "Quickly", "Happiness"],
+    correct: 1,
+    explanation: "Beautiful ek adjective hai jo kisi vyakti ya cheez ki khoobsurti batata hai."
+  },
+  {
+    question: "Sahi future tense chuno: 'I ___ help you tomorrow.'",
+    options: ["will", "am", "did", "was"],
+    correct: 0,
+    explanation: "Aane wale samay (future) ke liye 'will' use hota hai."
   }
 ];
 
