@@ -4,65 +4,46 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quiz - English Seekho</title>
-    <!-- Favicon -->
-  <link rel="icon" type="image/png" href="fevicon.png">
-
-  <!-- SEO Meta Tags -->
-  <meta name="description" content="Hindi se English seekho aasaan tarike se. Grammar lessons, interactive quiz, daily vocabulary aur games khelo.">
-  <meta name="keywords" content="English learning, Hindi to English, Grammar, Quiz, Vocabulary, English Seekho">
-  <meta name="author" content="Sameer Ansari">
-
-  <!-- Social Media Sharing Tags (Open Graph) -->
-  <meta property="og:title" content="English Seekho - Hindi se English">
-  <meta property="og:description" content="Grammar padho, quiz khelo, aur daily naye words seekho. Aasaan tarike se English seekhne ki website.">
-  <meta property="og:image" content="favicon.png">
-  <meta property="og:type" content="website">
-  
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="English Seekho - Hindi se English">
-  <meta name="twitter:description" content="Grammar padho, quiz khelo, aur daily naye words seekho.">
-  <meta name="twitter:image" content="favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="favicon.png">
   <link rel="stylesheet" href="css/style.css">
-  <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyAMtL9sDV0wwcTZ-tzGTwU-ChF97iv4dG0",
-    authDomain: "english-seekho-leaderboard.firebaseapp.com",
-    databaseURL: "https://english-seekho-leaderboard-default-rtdb.firebaseio.com",
-    projectId: "english-seekho-leaderboard",
-    storageBucket: "english-seekho-leaderboard.firebasestorage.app",
-    messagingSenderId: "462760120293",
-    appId: "1:462760120293:web:63032ad088865b786c690c"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getDatabase(app);
-
-  window.firebaseDB = db;
-  window.firebaseRef = ref;
-  window.firebasePush = push;
-
-  console.log('✅ Firebase initialized (quiz)');
-</script>
   <script src="js/dark-mode.js"></script>
+
+  <!-- Firebase SDK (Yeh zaroori hai Score Save ke liye) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAMtL9sDV0wwcTZ-tzGTwU-ChF97iv4dG0",
+      authDomain: "english-seekho-leaderboard.firebaseapp.com",
+      databaseURL: "https://english-seekho-leaderboard-default-rtdb.firebaseio.com",
+      projectId: "english-seekho-leaderboard",
+      storageBucket: "english-seekho-leaderboard.firebasestorage.app",
+      messagingSenderId: "462760120293",
+      appId: "1:462760120293:web:63032ad088865b786c690c"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    window.firebaseDB = db;
+    window.firebaseRef = ref;
+    window.firebasePush = push;
+    console.log('✅ Firebase initialized (quiz)');
+  </script>
 </head>
 <body>
 
   <nav class="navbar">
-  <div class="logo">📚 English Seekho</div>
-  <button class="menu-toggle" id="menuToggle" aria-label="Menu">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
-  <ul class="nav-links" id="navLinks">
-     <li><a href="index.html">Home</a></li>
+    <div class="logo">📚 English Seekho</div>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
       <li><a href="grammar.html">Grammar</a></li>
       <li><a href="vocabulary.html">Vocabulary</a></li>
       <li><a href="speaking.html">Speaking</a></li>
@@ -72,12 +53,9 @@
       <li><a href="dashboard.html">Dashboard</a></li>
       <li><a href="leaderboard.html">Leaderboard</a></li>
       <li><a href="contact.html">Contact</a></li>
-  </ul>
-      <!-- User Status / Logout -->
-    <div id="navUserArea" style="display: flex; align-items: center; gap: 0.5rem; margin-left: 1rem;">
-      <!-- JavaScript isko bhar dega -->
-    </div>
-</nav>
+    </ul>
+    <div id="navUserArea" style="display: flex; align-items: center;"></div>
+  </nav>
 
   <header class="page-header">
     <h1>🎯 Practice Quiz</h1>
@@ -86,7 +64,6 @@
 
   <main class="quiz-container">
 
-    <!-- Progress Bar -->
     <div class="quiz-progress">
       <div class="progress-info">
         <span>Question <span id="currentQ">1</span> / <span id="totalQ">5</span></span>
@@ -97,7 +74,6 @@
       </div>
     </div>
 
-    <!-- Question Card -->
     <div class="quiz-card" id="quizCard">
       <h2 id="questionText">Loading...</h2>
       <div class="options" id="optionsContainer"></div>
@@ -105,7 +81,6 @@
       <button class="btn btn-primary" id="nextBtn" style="display:none;">Next →</button>
     </div>
 
-    <!-- Result Card -->
     <div class="result-card" id="resultCard" style="display:none;">
       <div class="result-icon">🎉</div>
       <h2>Quiz Complete!</h2>
@@ -124,58 +99,23 @@
     <p>© 2025 English Seekho | Made with ❤️</p>
   </footer>
 
-  <script src="js/quiz.js"></script>
-
-<!-- Custom Name Modal -->
-<div id="nameModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999; justify-content: center; align-items: center;">
-  <div style="background: white; padding: 2rem; border-radius: 15px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
-    <h2 style="margin-bottom: 10px; color: #333; font-size: 1.5rem;">🎉 Mubarak ho!</h2>
-    <p style="margin-bottom: 20px; color: #666; font-size: 1rem;" id="modalScoreText">Tumne 50/50 points kamaye!</p>
-    <p style="margin-bottom: 10px; color: #333; font-weight: 600;">Leaderboard par apna naam likhein:</p>
-    <input type="text" id="playerNameInput" placeholder="Aapka naam..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem; margin-bottom: 20px; font-family: inherit;">
-    <div style="display: flex; gap: 10px;">
-      <button id="cancelNameBtn" style="flex: 1; padding: 12px; border: none; background: #eee; color: #333; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: inherit;">Cancel</button>
-      <button id="saveNameBtn" style="flex: 1; padding: 12px; border: none; background: #fbbf24; color: #333; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: inherit;">Save Score</button>
-    </div>
-  </div>
-</div>
-<script src="js/nav-updater.js"></script>
-  <!-- Floating Feedback Button -->
-  <button id="feedbackBtn" class="floating-feedback-btn" title="Feedback Dein">💬</button>
-
-  <!-- Feedback Modal -->
-  <div id="feedbackModal" class="feedback-modal">
-    <div class="feedback-modal-content">
-      <span class="close-feedback" id="closeFeedback">&times;</span>
-      <h2>💡 Aapka Feedback</h2>
-      <p style="color: var(--gray); margin-bottom: 1rem; font-size: 0.9rem;">Website ko behtar banane ke liye aapki raay zaroori hai!</p>
-      
-      <form id="feedbackForm">
-        <!-- Star Rating -->
-        <div class="star-rating">
-          <input type="radio" id="star5" name="rating" value="5" required><label for="star5">★</label>
-          <input type="radio" id="star4" name="rating" value="4"><label for="star4">★</label>
-          <input type="radio" id="star3" name="rating" value="3"><label for="star3">★</label>
-          <input type="radio" id="star2" name="rating" value="2"><label for="star2">★</label>
-          <input type="radio" id="star1" name="rating" value="1"><label for="star1">★</label>
-        </div>
-
-        <div class="form-group" style="margin-top: 1.5rem;">
-          <textarea id="feedbackText" placeholder="Aapko website kaisi lagi? Kya naya add karna chahiye?" rows="4" required></textarea>
-        </div>
-
-        <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Feedback</button>
-      </form>
-      
-      <div id="feedbackSuccess" style="display: none; text-align: center; color: var(--success); margin-top: 1rem; font-weight: 600;">
-        ✅ Dhanyawad! Aapka feedback mil gaya hai.
+  <!-- Custom Name Modal -->
+  <div id="nameModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999; justify-content: center; align-items: center;">
+    <div style="background: white; padding: 2rem; border-radius: 15px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
+      <h2 style="margin-bottom: 10px; color: #333; font-size: 1.5rem;">🎉 Mubarak ho!</h2>
+      <p style="margin-bottom: 20px; color: #666; font-size: 1rem;" id="modalScoreText">Tumne 50/50 points kamaye!</p>
+      <p style="margin-bottom: 10px; color: #333; font-weight: 600;">Leaderboard par apna naam likhein:</p>
+      <input type="text" id="playerNameInput" placeholder="Aapka naam..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem; margin-bottom: 20px; font-family: inherit;">
+      <div style="display: flex; gap: 10px;">
+        <button id="cancelNameBtn" style="flex: 1; padding: 12px; border: none; background: #eee; color: #333; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: inherit;">Cancel</button>
+        <button id="saveNameBtn" style="flex: 1; padding: 12px; border: none; background: #fbbf24; color: #333; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: inherit;">Save Score</button>
       </div>
     </div>
   </div>
 
-  <!-- Feedback Logic -->
-  <script src="js/feedback.js"></script>
+  <script src="js/quiz.js"></script>
+  <script src="js/nav-updater.js"></script>
   <script src="js/toast.js"></script>
-</body>
 
+</body>
 </html>

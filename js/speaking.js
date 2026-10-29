@@ -1,6 +1,4 @@
-// ============================================
-// SPEAKING PRACTICE LOGIC
-// ============================================
+// Version 2.0 (Naya Code)
 const sentences = [
   "The sun rises in the east.",
   "I love to read books.",
@@ -11,10 +9,24 @@ const sentences = [
   "They are watching a movie.",
   "I want to learn English.",
   "The cat is sleeping on the chair.",
-  "Today is a good day."
+  "Today is a good day.",
+  "I have been living in this city for five years.",
+  "She will visit her grandmother next week.",
+  "The teacher gave us a lot of homework.",
+  "We should always respect our elders.",
+  "He was playing football when it started raining.",
+  "If you study hard, you will pass the exam.",
+  "They have already completed their project.",
+  "I am looking forward to meeting you.",
+  "She sells sea shells by the sea shore.",
+  "Peter Piper picked a peck of pickled peppers.",
+  "The quick brown fox jumps over the lazy dog.",
+  "How much wood would a woodchuck chuck if a woodchuck could chuck wood?",
+  "I thought a thought, but the thought I thought wasn't the thought I thought I thought."
 ];
 
-let currentSentenceIndex = 0;
+// Yahan hum random sentence select karenge
+let currentIndex = Math.floor(Math.random() * sentences.length);
 let recognition;
 let isListening = false;
 
@@ -25,7 +37,6 @@ const micStatus = document.getElementById('micStatus');
 const resultBox = document.getElementById('resultBox');
 const nextBtn = document.getElementById('nextBtn');
 
-// Initialize Speech Recognition
 if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   recognition = new SpeechRecognition();
@@ -47,7 +58,7 @@ if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
   };
 
   recognition.onerror = (event) => {
-    micStatus.textContent = "❌ Error: " + event.error + ". Kripya dobara try karein.";
+    micStatus.textContent = "❌ Error: " + event.error;
     micStatus.style.color = "var(--danger)";
     micBtn.classList.remove('listening');
     isListening = false;
@@ -66,26 +77,23 @@ if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
   micStatus.textContent = "Aapka browser mic support nahi karta. Chrome use karein.";
 }
 
-// Load Sentence
 function loadSentence() {
-  targetSentenceEl.textContent = sentences[currentSentenceIndex];
+  targetSentenceEl.textContent = sentences[currentIndex];
   resultBox.style.display = 'none';
   nextBtn.style.display = 'none';
   micStatus.textContent = "Bolne ke liye mic button dabayein";
   micStatus.style.color = "var(--gray)";
 }
 
-// Speak the sentence (Audio)
 listenBtn.onclick = () => {
   if ('speechSynthesis' in window) {
-    const utterance = new SpeechSynthesisUtterance(sentences[currentSentenceIndex]);
+    const utterance = new SpeechSynthesisUtterance(sentences[currentIndex]);
     utterance.lang = 'en-US';
     utterance.rate = 0.9;
     window.speechSynthesis.speak(utterance);
   }
 };
 
-// Mic Button Click
 micBtn.onclick = () => {
   if (isListening) {
     recognition.stop();
@@ -94,63 +102,47 @@ micBtn.onclick = () => {
   }
 };
 
-// Check Pronunciation
 function checkPronunciation(spokenText) {
   micStatus.textContent = "✅ Aapne bola: \"" + spokenText + "\"";
   micStatus.style.color = "var(--success)";
-  
-  const target = sentences[currentSentenceIndex].toLowerCase().replace(/[.,!?]/g, '');
+
+  const target = sentences[currentIndex].toLowerCase().replace(/[.,!?]/g, '');
   const spoken = spokenText.toLowerCase().replace(/[.,!?]/g, '');
-  
+
   let score = 0;
   const targetWords = target.split(' ');
   const spokenWords = spoken.split(' ');
-  
+
   targetWords.forEach(word => {
-    if (spokenWords.includes(word)) {
-      score++;
-    }
+    if (spokenWords.includes(word)) score++;
   });
 
   const percentage = Math.round((score / targetWords.length) * 100);
 
   resultBox.style.display = 'block';
   if (percentage >= 80) {
-    resultBox.innerHTML = `
-      <div class="result-success">
-        <h3>🌟 Excellent! (${percentage}% Match)</h3>
-        <p>Aapki pronunciation bahut achhi hai!</p>
-      </div>
-    `;
-    // Add points to localStorage
-    let points = parseInt(localStorage.getItem('points') || 0);
-    points += 10;
+    resultBox.innerHTML = `<div class="result-success"><h3>🌟 Excellent! (${percentage}% Match)</h3><p>Aapki pronunciation bahut achhi hai!</p></div>`;
+    let points = parseInt(localStorage.getItem('points') || 0) + 10;
     localStorage.setItem('points', points);
-    if(typeof showToast === 'function') showToast("+10 Points! Shandar Pronunciation!", "success");
+    if (typeof showToast === 'function') showToast("+10 Points! Shandar Pronunciation!", "success");
   } else if (percentage >= 50) {
-    resultBox.innerHTML = `
-      <div class="result-warning">
-        <h3>👍 Achha! (${percentage}% Match)</h3>
-        <p>Thodi si aur practice karein.</p>
-      </div>
-    `;
+    resultBox.innerHTML = `<div class="result-warning"><h3>👍 Achha! (${percentage}% Match)</h3><p>Thodi si aur practice karein.</p></div>`;
   } else {
-    resultBox.innerHTML = `
-      <div class="result-error">
-        <h3>💪 Thoda Mushkil Hua (${percentage}% Match)</h3>
-        <p>Phir se try karein, aap kar sakte hain!</p>
-      </div>
-    `;
+    resultBox.innerHTML = `<div class="result-error"><h3>💪 Thoda Mushkil Hua (${percentage}% Match)</h3><p>Phir se try karein!</p></div>`;
   }
 
-  nextBtn.style.display = 'inline-block';
+  nextBtn.style.display = 'block'; // inline-block ki jagah block karein
+  nextBtn.style.width = '100%'; // Button ko poori width dein
 }
 
-// Next Button
 nextBtn.onclick = () => {
-  currentSentenceIndex = (currentSentenceIndex + 1) % sentences.length;
+  let newIndex;
+  do {
+    newIndex = Math.floor(Math.random() * sentences.length);
+  } while (newIndex === currentIndex && sentences.length > 1);
+
+  currentIndex = newIndex;
   loadSentence();
 };
 
-// Start
 document.addEventListener('DOMContentLoaded', loadSentence);
