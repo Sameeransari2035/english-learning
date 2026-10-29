@@ -335,3 +335,43 @@ if (lesson) {
   document.getElementById('lessonContent').innerHTML =
     '<p>Ye lesson available nahi hai. <a href="grammar.html">Saare lessons dekho</a>.</p>';
 }
+
+// ============================================
+// PREVIOUS & NEXT LESSON LOGIC
+// ============================================
+function goToNextLesson() {
+  const nextLessonNum = parseInt(lessonNum) + 1;
+  // Check karo ki agla lesson exist karta hai ya nahi
+  if (lessonsData[nextLessonNum]) {
+    window.location.href = `lesson.html?lesson=${nextLessonNum}`;
+  } else {
+    alert("🎉 Aapne saare lessons padh liye hain! Ab Quiz khel kar test karein.");
+    window.location.href = 'grammar.html';
+  }
+}
+
+function goToPreviousLesson() {
+  const prevLessonNum = parseInt(lessonNum) - 1;
+  if (lessonsData[prevLessonNum]) {
+    window.location.href = `lesson.html?lesson=${prevLessonNum}`;
+  }
+}
+
+// Page load hone par buttons ko sahi se set karo
+document.addEventListener('DOMContentLoaded', () => {
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  
+  // Agar ye pehla lesson hai, toh Previous button chhupa do
+  if (parseInt(lessonNum) === 1) {
+    if (prevBtn) prevBtn.style.display = 'none';
+  } else {
+    if (prevBtn) prevBtn.style.display = 'block';
+  }
+
+  // Agar ye aakhri lesson hai, toh Next button ka text badal do
+  const maxLesson = Object.keys(lessonsData).length;
+  if (parseInt(lessonNum) === maxLesson) {
+    if (nextBtn) nextBtn.textContent = 'Finish & Take Quiz →';
+  }
+});
