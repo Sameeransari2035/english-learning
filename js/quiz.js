@@ -161,6 +161,24 @@ function checkLoginBeforeScore() {
   return true;
 }
 
+// Level System Data
+const levels = [
+  { name: 'Beginner', min: 0, max: 50, icon: '🌱' },
+  { name: 'Learner', min: 50, max: 150, icon: '📚' },
+  { name: 'Intermediate', min: 150, max: 300, icon: '🚀' },
+  { name: 'Advanced', min: 300, max: 500, icon: '⭐' },
+  { name: 'Master', min: 500, max: 1000, icon: '👑' }
+];
+
+function getUserLevel(points) {
+  for (let i = levels.length - 1; i >= 0; i--) {
+    if (points >= levels[i].min) {
+      return levels[i];
+    }
+  }
+  return levels[0];
+}
+
 function saveProgress(earnedPoints) {
   let totalPoints = parseInt(localStorage.getItem('points') || 0) + earnedPoints;
   localStorage.setItem('points', totalPoints);
@@ -181,22 +199,38 @@ function saveProgress(earnedPoints) {
   localStorage.setItem('quizCount', quizCount);
 
   let badges = JSON.parse(localStorage.getItem('badgeList') || '[]');
+  
+  // Normal Badges
   if (quizCount >= 1 && !badges.includes('first_quiz')) badges.push('first_quiz');
   if (totalPoints >= 50 && !badges.includes('fifty_points')) badges.push('fifty_points');
   if (totalPoints >= 100 && !badges.includes('hundred_points')) badges.push('hundred_points');
   if (score === quizQuestions.length * 10 && !badges.includes('perfect')) badges.push('perfect');
   if (streak >= 3 && !badges.includes('streak3')) badges.push('streak3');
 
+  // Level Badge Logic (Yahan Add Kiya Gaya Hai)
+  const currentLevel = getUserLevel(totalPoints);
+  const levelBadgeId = 'level_' + currentLevel.name.toLowerCase();
+  if (!badges.includes(levelBadgeId)) {
+    badges.push(levelBadgeId);
+  }
+
   localStorage.setItem('badgeList', JSON.stringify(badges));
   localStorage.setItem('badges', badges.length);
 }
 
+// Badge Info (Sabhi Badges Yahan)
 const badgeInfo = {
   first_quiz: { icon: '🎯', name: 'First Quiz' },
   fifty_points: { icon: '⭐', name: '50 Points' },
   hundred_points: { icon: '💯', name: '100 Points' },
   perfect: { icon: '🏆', name: 'Perfect Score' },
-  streak3: { icon: '🔥', name: '3-Day Streak' }
+  streak3: { icon: '🔥', name: '3-Day Streak' },
+  // Naye Level Badges
+  level_beginner: { icon: '🌱', name: 'Beginner' },
+  level_learner: { icon: '📚', name: 'Learner' },
+  level_intermediate: { icon: '🚀', name: 'Intermediate' },
+  level_advanced: { icon: '⭐', name: 'Advanced' },
+  level_master: { icon: '👑', name: 'Master' }
 };
 
 function displayBadges() {
@@ -234,14 +268,12 @@ function askNameAndSaveToLeaderboard() {
   const currentUser = localStorage.getItem('currentUser');
   const savedName = localStorage.getItem('userName');
 
-  // Agar user login hai aur naam saved hai, toh direct save karo
   if (currentUser && savedName) {
     waitForFirebaseAndSave(savedName, score, maxScore);
     showLeaderboardLink();
     return;
   }
 
-  // Warna popup dikhao (agar naam nahi hai)
   const modal = document.getElementById('nameModal');
   const input = document.getElementById('playerNameInput');
   const saveBtn = document.getElementById('saveNameBtn');

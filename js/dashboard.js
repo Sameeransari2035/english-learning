@@ -1,33 +1,31 @@
 // ============================================
-// BADGE INFO
+// BADGE INFO (Sabhi Badges Yahan)
 // ============================================
 const badgeInfo = {
   first_quiz: { icon: '🎯', name: 'First Quiz', desc: 'Pehli baar quiz khela' },
   fifty_points: { icon: '⭐', name: '50 Points', desc: 'Total 50 points kamaye' },
   hundred_points: { icon: '💯', name: '100 Points', desc: 'Total 100 points kamaye' },
   perfect: { icon: '🏆', name: 'Perfect Score', desc: 'Saare jawab sahi' },
-  streak3: { icon: '🔥', name: '3-Day Streak', desc: '3 din lagatar khela' }
+  streak3: { icon: '🔥', name: '3-Day Streak', desc: '3 din lagatar khela' },
+  
+  // Naye Level Badges
+  level_beginner: { icon: '🌱', name: 'Beginner', desc: '0-50 points' },
+  level_learner: { icon: '📚', name: 'Learner', desc: '50-150 points' },
+  level_intermediate: { icon: '🚀', name: 'Intermediate', desc: '150-300 points' },
+  level_advanced: { icon: '⭐', name: 'Advanced', desc: '300-500 points' },
+  level_master: { icon: '👑', name: 'Master', desc: '500+ points' }
 };
 
 // ============================================
 // LEVEL SYSTEM
 // ============================================
 const levels = [
-  { name: 'Beginner', min: 0, max: 50 },
-  { name: 'Learner', min: 50, max: 150 },
-  { name: 'Intermediate', min: 150, max: 300 },
-  { name: 'Advanced', min: 300, max: 500 },
-  { name: 'Master', min: 500, max: 1000 }
+  { name: 'Beginner', min: 0, max: 50, icon: '🌱' },
+  { name: 'Learner', min: 50, max: 150, icon: '📚' },
+  { name: 'Intermediate', min: 150, max: 300, icon: '🚀' },
+  { name: 'Advanced', min: 300, max: 500, icon: '⭐' },
+  { name: 'Master', min: 500, max: 1000, icon: '👑' }
 ];
-
-function getLevel(points) {
-  for (let i = levels.length - 1; i >= 0; i--) {
-    if (points >= levels[i].min) {
-      return levels[i];
-    }
-  }
-  return levels[0];
-}
 
 // ============================================
 // LOAD DASHBOARD
@@ -37,25 +35,20 @@ function loadDashboard() {
   let userEmail = localStorage.getItem('currentUser') || 'Guest';
   let userName = localStorage.getItem('userName');
 
-  // Agar naam save nahi hai ya default 'User' hai
   if (!userName || userName === 'User') {
     if (userEmail.includes('@')) {
-      // Email ke aage wala part lo (jaise naseemahmed2035)
       let rawName = userEmail.split('@')[0]; 
+      rawName = rawName.replace(/[0-9]/g, ''); // Numbers hatao
       
-      // Numbers aur special characters hata do
-      rawName = rawName.replace(/[0-9]/g, '');
-      
-      // Pehla letter capital kar do
       if (rawName.length > 0) {
         userName = rawName.charAt(0).toUpperCase() + rawName.slice(1);
       } else {
-        userName = 'User'; // Agar naam sirf numbers ka tha
+        userName = 'User'; 
       }
     } else {
       userName = 'User';
     }
-    localStorage.setItem('userName', userName); // Naya saaf naam save karo
+    localStorage.setItem('userName', userName); 
   }
 
   const nameEl = document.getElementById('profileName');
@@ -80,20 +73,33 @@ function loadDashboard() {
   document.getElementById('dashStreak').textContent = streak;
   document.getElementById('dashQuizCount').textContent = quizCount;
 
-  // ===== LEVEL =====
-  const currentLevel = getLevel(points);
-  document.getElementById('levelName').textContent = currentLevel.name;
-  document.getElementById('levelPoints').textContent =
-    points + ' / ' + currentLevel.max + ' points';
+  // ===== LEVEL UPDATE =====
+  let currentLevel = levels[0];
+  for (let i = levels.length - 1; i >= 0; i--) {
+    if (points >= levels[i].min) {
+      currentLevel = levels[i];
+      break;
+    }
+  }
 
-  const levelProgress = ((points - currentLevel.min) / (currentLevel.max - currentLevel.min)) * 100;
-  document.getElementById('levelFill').style.width = Math.min(levelProgress, 100) + '%';
-
+  document.getElementById('levelName').textContent = `${currentLevel.icon} ${currentLevel.name}`;
+  
+  // Progress Calculation
+  const levelRange = currentLevel.max - currentLevel.min;
+  const progressInLevel = points - currentLevel.min;
+  let levelProgress = (progressInLevel / levelRange) * 100;
+  
+  if (levelProgress > 100) levelProgress = 100;
+  
+  document.getElementById('levelFill').style.width = levelProgress + '%';
+  
+  // Next level tak kitne points bache
   const remaining = currentLevel.max - points;
   if (remaining > 0) {
-    document.getElementById('levelHint').textContent =
-      'Agle level tak ' + remaining + ' points aur chahiye!';
+    document.getElementById('levelPoints').textContent = `${points} / ${currentLevel.max} points`;
+    document.getElementById('levelHint').textContent = `Agle level tak ${remaining} points aur chahiye!`;
   } else {
+    document.getElementById('levelPoints').textContent = `${points} Points`;
     document.getElementById('levelHint').textContent = 'Tum top level par ho! 🎉';
   }
 
@@ -232,9 +238,7 @@ function renderCalendar() {
 
     let isPlayed = false;
     if (lastPlayed) {
-      // Agar aaj khela hai, toh tick lagao
       if (i === 0 && lastPlayed === today.toDateString()) isPlayed = true;
-      // Streak ke hisaab se pichhle dinon par tick lagao
       if (i <= streak && i !== 0) isPlayed = true; 
     }
 
@@ -258,28 +262,19 @@ document.addEventListener('DOMContentLoaded', loadDashboard);
 // EDIT USER NAME FUNCTION
 // ============================================
 function editUserName() {
-  // Purana naam nikaalo (ya khali string)
   const currentName = localStorage.getItem('userName') || '';
-  
-  // User se naya naam pucho
   let newName = prompt("Apna naya naam likhein:", currentName);
   
-  // Agar user ne Cancel nahi kiya aur khali naam nahi daala
   if (newName !== null && newName.trim() !== "") {
     newName = newName.trim();
-    
-    // Naya naam local storage mein save karo
     localStorage.setItem('userName', newName);
     
-    // Dashboard par turant update karo
     loadDashboard();
     
-    // Navbar par bhi update karo (agar nav-updater.js load hai)
     if (typeof updateNavbar === 'function') {
       updateNavbar();
     }
     
-    // Agar toast system hai toh notification dikhao
     if (typeof showToast === 'function') {
       showToast("Naam successfully update ho gaya!", "success");
     } else {
