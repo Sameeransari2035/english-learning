@@ -3689,53 +3689,55 @@ html.dark-mode .result-error { background: rgba(239, 68, 68, 0.2); color: #fca5a
 }
 
 /* ============================================
-   LESSON NAVIGATION BUTTONS (PERFECT EQUAL SIZE)
+   LESSON NAVIGATION BUTTONS (MOBILE FIX)
    ============================================ */
 .lesson-nav {
   display: flex;
-  justify-content: center; /* Sabhi buttons ko center me layega */
-  align-items: stretch; /* Height barabar rakhega */
-  gap: 15px; /* Buttons ke beech space */
+  justify-content: center;
+  align-items: stretch;
+  gap: 15px;
   margin-top: 3rem;
   padding-top: 2rem;
   border-top: 1px solid rgba(0, 0, 0, 0.05);
-  flex-wrap: wrap; /* Agar screen chhoti ho toh wrap ho jaye */
 }
 
 .lesson-nav .btn {
-  flex: 1; /* Sabhi buttons barabar jagah lenge */
-  max-width: 200px; /* Button ki max width fix karein */
-  padding: 0.9rem 1rem;
-  font-size: 1rem;
+  flex: 1;
+  max-width: 160px;
+  height: 50px;
+  padding: 0 10px;
+  font-size: 0.95rem;
   text-align: center;
   border-radius: 10px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 50px; /* Height ekdum barabar */
+  box-sizing: border-box;
+  white-space: nowrap;
+  line-height: 1;
+  margin: 0;
+  border: none;
 }
 
-/* Mobile ke liye perfect alignment */
+/* Mobile ke liye special fix */
 @media (max-width: 600px) {
   .lesson-nav {
-    flex-direction: row;
+    flex-direction: column; /* Ek ke neeche ek */
     gap: 10px;
     margin-top: 2rem;
   }
 
-  /* Mobile par teeno buttons barabar aur center me */
+  /* Sabhi buttons full width lenge */
   .lesson-nav .btn {
-    width: 30%; /* Teen buttons screen par barabar */
-    padding: 0.8rem 0.2rem;
-    font-size: 0.8rem;
-    min-height: 45px;
+    width: 100%;
+    max-width: none;
+    height: 48px;
+    font-size: 1rem; /* Text thoda bada */
   }
 
-  /* Mobile par 'Saare Lessons' ka text thoda chhota karein taaki fit ho jaye */
-  .lesson-nav a.btn-secondary {
-    display: flex !important; 
-    white-space: normal; /* Text ko do line me aane dein agar jagah kam ho */
-    line-height: 1.2;
+  /* Next button ko sabse upar le aane ke liye */
+  .lesson-nav #nextBtn {
+    order: -1; 
   }
 }
 
