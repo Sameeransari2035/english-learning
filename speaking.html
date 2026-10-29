@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="hi">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +12,7 @@
   <link rel="stylesheet" href="css/style.css">
   <script src="js/dark-mode.js"></script>
 </head>
+
 <body>
 
   <nav class="navbar">
@@ -30,7 +32,8 @@
       <li><a href="leaderboard.html">Leaderboard</a></li>
       <li><a href="contact.html">Contact</a></li>
     </ul>
-    <div id="navUserArea" style="display: flex; align-items: center; gap: 0.5rem; margin-left: 1rem;">
+    <!-- User Area -->
+    <div id="navUserArea" style="display: flex; align-items: center; gap: 0.5rem; margin-left: 1rem;"></div>
   </nav>
 
   <header class="page-header" style="background: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);">
@@ -40,18 +43,20 @@
 
   <main class="speaking-container">
     <div class="speaking-card">
-      
+
       <div class="sentence-box">
         <p style="color: var(--gray); margin-bottom: 0.5rem; font-size: 0.9rem;">Is sentence ko bolein:</p>
         <h2 id="targetSentence">Loading...</h2>
-        <button class="audio-btn" id="listenBtn" style="margin-top: 1rem;" title="Sunne ke liye click karein">🔊 Sunne ke liye Click Karein</button>
+        <button class="audio-btn" id="listenBtn" style="margin-top: 1rem;" title="Sunne ke liye click karein">🔊 Sunne
+          ke liye Click Karein</button>
       </div>
 
       <div class="mic-section">
         <button id="micBtn" class="mic-button">
           🎤
         </button>
-        <p id="micStatus" style="margin-top: 1rem; font-weight: 600; color: var(--gray);">Bolne ke liye mic button dabayein</p>
+        <p id="micStatus" style="margin-top: 1rem; font-weight: 600; color: var(--gray);">Bolne ke liye mic button
+          dabayein</p>
       </div>
 
       <div id="resultBox" class="result-box" style="display: none;">
@@ -59,7 +64,7 @@
       </div>
 
       <div class="speaking-actions">
-        <button class="btn btn-primary" id="nextBtn" style="display: none;">Next Sentence →</button>
+        <button class="btn btn-primary" id="nextBtn" style="margin-top: 1rem; display: none;">Next Sentence →</button>
       </div>
 
     </div>
@@ -68,10 +73,10 @@
   <footer class="footer">
     <p>© 2025 English Seekho | Made with ❤️</p>
   </footer>
-
   <script src="js/speaking.js"></script>
   <script src="js/nav-updater.js"></script>
   <script src="js/toast.js"></script>
 
 </body>
+
 </html>
